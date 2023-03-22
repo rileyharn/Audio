@@ -15,18 +15,20 @@
         tools:layout_editor_absoluteY="348dp">
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/recordButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="98dp"
             android:layout_marginEnd="1dp"
             android:drawableTint="@color/black"
-            android:text="Button"
+            android:text="@string/app_name"
             app:cornerRadius="250dp"
             app:icon="@drawable/untitled_artwork_4"
             app:iconTint="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stopRecordButton" />
 
         <TextView
             android:id="@+id/textView"
@@ -35,5 +37,13 @@
             android:text="Hello!!!!"
             tools:layout_editor_absoluteX="118dp"
             tools:layout_editor_absoluteY="101dp" />
+
+        <Button
+            android:id="@+id/stopRecordButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sropRecordButtonText"
+            tools:layout_editor_absoluteX="154dp"
+            tools:layout_editor_absoluteY="219dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
