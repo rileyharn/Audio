@@ -23,7 +23,7 @@
             android:drawableTint="@color/black"
             android:text="@string/app_name"
             app:cornerRadius="250dp"
-            app:icon="@drawable/untitled_artwork_4"
+            app:icon="@drawable/mic_icon"
             app:iconGravity="top"
             app:iconPadding="50dp"
             app:iconTint="#FFFFFF"
