@@ -21,6 +21,7 @@
             android:layout_marginStart="1dp"
             android:layout_marginEnd="1dp"
             android:drawableTint="@color/black"
+            android:onClick="startRecording"
             android:text="@string/app_name"
             app:cornerRadius="250dp"
             app:icon="@drawable/mic_icon"
@@ -31,17 +32,45 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.494"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:toggleCheckedStateOnClick="true" />
 
         <Button
             android:id="@+id/stopRecordButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="stopRecording"
             android:text="@string/stopRecordButtonText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recordButton" />
+
+        <Button
+            android:id="@+id/stopPlayback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="stopPlay"
+            android:text="Stop"
+            app:layout_constraintBottom_toTopOf="@+id/recordButton"
+            app:layout_constraintEnd_toStartOf="@+id/startPlayback"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/startPlayback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="startPlay"
+            android:text="Play"
+            app:layout_constraintBottom_toTopOf="@+id/recordButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/stopPlayback"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
