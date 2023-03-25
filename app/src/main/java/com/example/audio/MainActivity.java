@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Toast;
 import android.Manifest;
@@ -27,11 +28,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         requestAudioPermissions();
-        MediaRecorder mediaRecorder = new MediaRecorder();
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_2_TS);
-        mediaRecorder.setOutputFile(recordingFile.getAbsolutePath());
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+        mediaRecorder = new MediaRecorder();
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO},0);
+
+        }
+        else {
+            mediaRecorder = new MediaRecorder();
+            mediaRecorder.reset();
+            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+            mediaRecorder.setOutputFile(getFilePath());
+        }
         try {
             mediaRecorder.prepare();
         } catch (IOException e) {
@@ -60,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             mediaRecorder.start();
             microphoneRunning = true;
             Toast toast = Toast.makeText( getApplicationContext(),"Start Microphone", Toast.LENGTH_LONG);
+            toast.show();
         }
     }
 
@@ -69,15 +80,24 @@ public class MainActivity extends AppCompatActivity {
         {
             mediaRecorder.stop();
             microphoneRunning = false;
+            mediaRecorder.reset();
+            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+            mediaRecorder.setOutputFile(getFilePath());
             Toast toast = Toast.makeText( getApplicationContext(),"Stop Microphone", Toast.LENGTH_LONG);
+            toast.show();
         }
     }
 
-    public void releaseMicrophone()
-    {
-        mediaRecorder.release();
+    private String getFilePath() {
+
+        String filepath = getFilesDir().getPath();
+        File file = new File(filepath, "MediaRecorderSample");
+
+        if (!file.exists())
+            file.mkdirs();
+
+        return (file.getAbsolutePath() + "/" + "test.mp3");
     }
-
-
-
 }
