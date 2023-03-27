@@ -27,7 +27,7 @@
             app:icon="@drawable/mic_icon"
             app:iconGravity="top"
             app:iconPadding="50dp"
-            app:iconTint="#FFFFFF"
+            app:iconTint="?android:attr/colorForegroundInverse"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.494"

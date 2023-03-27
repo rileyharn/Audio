@@ -44,8 +44,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startRecording(View view){
-        Log.d(LOG_TAG,"Starting recording");
+        Log.d(LOG_TAG,"Button pressed");
         if(CheckPermissions()) {
+            Log.d(LOG_TAG,"Starting recording");
             stopBtn.setEnabled(true);
             startBtn.setEnabled(false);
             playBtn.setEnabled(false);
@@ -110,10 +111,12 @@ public class MainActivity extends AppCompatActivity {
         int result = ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE);
         int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE);
         int result2 = ContextCompat.checkSelfPermission(getApplicationContext(), RECORD_AUDIO);
-        return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED && result2 == PackageManager.PERMISSION_GRANTED;
+        int result3 = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_MEDIA_AUDIO);
+        return ((result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED)||(result3 == PackageManager.PERMISSION_GRANTED) )&& result2 == PackageManager.PERMISSION_GRANTED;
     }
     private void RequestPermissions() {
-        System.out.println("Here");
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}, REQUEST_AUDIO_PERMISSION_CODE);
+        Log.d(LOG_TAG,"Starting request");
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_MEDIA_AUDIO}, REQUEST_AUDIO_PERMISSION_CODE);
+        Log.d(LOG_TAG,"Finished request");
     }
 }
