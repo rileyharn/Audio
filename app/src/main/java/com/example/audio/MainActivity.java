@@ -22,21 +22,21 @@ import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class MainActivity extends AppCompatActivity {
-    private Button startBtn, stopBtn, playBtn, stopPlayBtn;
+    private Button startBtn, playBtn, stopPlayBtn;
     private MediaRecorder mRecorder;
     private MediaPlayer mPlayer;
     private static final String LOG_TAG = "AudioRecording";
     private static String mFileName = null;
+
+    private boolean recording = false;
     public static final int REQUEST_AUDIO_PERMISSION_CODE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         startBtn = findViewById(R.id.recordButton);
-        stopBtn = findViewById(R.id.stopRecordButton);
         playBtn = findViewById(R.id.startPlayback);
         stopPlayBtn = findViewById(R.id.stopPlayback);
-        stopBtn.setEnabled(false);
         playBtn.setEnabled(false);
         stopPlayBtn.setEnabled(false);
         mFileName =  Environment.getExternalStorageDirectory() + File.separator
@@ -46,23 +46,34 @@ public class MainActivity extends AppCompatActivity {
     public void startRecording(View view){
         Log.d(LOG_TAG,"Button pressed");
         if(CheckPermissions()) {
-            Log.d(LOG_TAG,"Starting recording");
-            stopBtn.setEnabled(true);
-            startBtn.setEnabled(false);
-            playBtn.setEnabled(false);
-            stopPlayBtn.setEnabled(false);
-            mRecorder = new MediaRecorder();
-            mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-            mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-            mRecorder.setOutputFile(mFileName);
-            try {
-                mRecorder.prepare();
-            } catch (IOException e) {
-                Log.e(LOG_TAG, "prepare() failed");
+            if(!recording) {
+                Log.d(LOG_TAG, "Starting recording");
+                recording = true;
+                playBtn.setEnabled(false);
+                stopPlayBtn.setEnabled(false);
+                mRecorder = new MediaRecorder();
+                mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+                mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+                mRecorder.setOutputFile(mFileName);
+                try {
+                    mRecorder.prepare();
+                } catch (IOException e) {
+                    Log.e(LOG_TAG, "prepare() failed");
+                }
+                mRecorder.start();
+                Toast.makeText(getApplicationContext(), "Recording Started", Toast.LENGTH_LONG).show();
             }
-            mRecorder.start();
-            Toast.makeText(getApplicationContext(), "Recording Started", Toast.LENGTH_LONG).show();
+            else{
+                recording = false;
+                startBtn.setEnabled(true);
+                playBtn.setEnabled(true);
+                stopPlayBtn.setEnabled(true);
+                mRecorder.stop();
+                mRecorder.release();
+                mRecorder = null;
+                Toast.makeText(getApplicationContext(), "Recording Stopped", Toast.LENGTH_LONG).show();
+            }
         }
         else
         {
@@ -70,19 +81,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void stopRecording(View view){
-        stopBtn.setEnabled(false);
-        startBtn.setEnabled(true);
-        playBtn.setEnabled(true);
-        stopPlayBtn.setEnabled(true);
-        mRecorder.stop();
-        mRecorder.release();
-        mRecorder = null;
-        Toast.makeText(getApplicationContext(), "Recording Stopped", Toast.LENGTH_LONG).show();
-    }
-
     public void startPlay(View view){
-        stopBtn.setEnabled(false);
         startBtn.setEnabled(true);
         playBtn.setEnabled(false);
         stopPlayBtn.setEnabled(true);
@@ -100,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
     public void stopPlay(View view){
         mPlayer.release();
         mPlayer = null;
-        stopBtn.setEnabled(false);
         startBtn.setEnabled(true);
         playBtn.setEnabled(true);
         stopPlayBtn.setEnabled(false);
