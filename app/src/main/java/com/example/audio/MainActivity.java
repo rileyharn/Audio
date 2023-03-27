@@ -13,6 +13,8 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 import android.Manifest;
+
+import java.io.File;
 import java.io.IOException;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
@@ -37,11 +39,12 @@ public class MainActivity extends AppCompatActivity {
         stopBtn.setEnabled(false);
         playBtn.setEnabled(false);
         stopPlayBtn.setEnabled(false);
-        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        mFileName += "/AudioRecording.3gp";
+        mFileName =  Environment.getExternalStorageDirectory() + File.separator
+                + Environment.DIRECTORY_DCIM + File.separator + "test.mpeg4";
     }
 
     public void startRecording(View view){
+        Log.d(LOG_TAG,"Starting recording");
         if(CheckPermissions()) {
             stopBtn.setEnabled(true);
             startBtn.setEnabled(false);
@@ -49,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             stopPlayBtn.setEnabled(false);
             mRecorder = new MediaRecorder();
             mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+            mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
             mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
             mRecorder.setOutputFile(mFileName);
             try {
