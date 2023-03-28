@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Audio</string>
     <string name="stopRecordButtonText">Stop Recording</string>
-    <string name="recordButtonText">Press this button to record</string>
+    <string name="recordButtonText">Press to record a story</string>
     <string name="createAGroup">Create A Group</string>
     <string name="joinAGroup">Join A Group</string>
 </resources>
