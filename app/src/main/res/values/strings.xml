@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Audio</string>
     <string name="stopRecordButtonText">Stop Recording</string>
-    <string name="recordButtonText">Click here to record</string>
+    <string name="recordButtonText">Press to record a story</string>
 </resources>
