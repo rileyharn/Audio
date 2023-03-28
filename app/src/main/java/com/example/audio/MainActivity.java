@@ -22,12 +22,21 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 public class MainActivity extends AppCompatActivity {
     private Button startBtn, playBtn, stopPlayBtn;
     private MediaRecorder mRecorder;
     private MediaPlayer mPlayer;
     private static final String LOG_TAG = "AudioRecording";
     private static String mFileName = null;
+
+    //Cloud storage stuff
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
+    StorageReference audioRef = storageRef.child("audio.mpeg4");
+
 
     private boolean recording = false;
     public static final int REQUEST_AUDIO_PERMISSION_CODE = 1;
@@ -41,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         stopPlayBtn.setEnabled(false);
         mFileName =  Environment.getExternalStorageDirectory() + File.separator
                 + Environment.DIRECTORY_DCIM + File.separator + "test.mpeg4";
+
     }
 
     public void startRecording(View view){
@@ -55,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                 mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
                 mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-                mRecorder.setOutputFile(mFileName);
+                mRecorder.setOutputFile(String.valueOf(audioRef));
                 try {
                     mRecorder.prepare();
                 } catch (IOException e) {
@@ -117,4 +127,5 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_MEDIA_AUDIO}, REQUEST_AUDIO_PERMISSION_CODE);
         Log.d(LOG_TAG,"Finished request");
     }
+
 }
