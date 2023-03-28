@@ -1,5 +1,6 @@
 package com.example.audio;
 
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -33,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         startBtn = findViewById(R.id.recordButton);
         playBtn = findViewById(R.id.startPlayback);
         stopPlayBtn = findViewById(R.id.stopPlayback);
