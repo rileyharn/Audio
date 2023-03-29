@@ -21,10 +21,6 @@ import java.io.IOException;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
 public class MainActivity extends AppCompatActivity {
     private Button startBtn, playBtn, stopPlayBtn;
     private MediaRecorder mRecorder;
@@ -33,9 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private static String mFileName = null;
 
     //Cloud storage stuff
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-    StorageReference storageRef = storage.getReference();
-    StorageReference audioRef = storageRef.child("audio.mpeg4");
 
 
     private boolean recording = false;
@@ -43,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         startBtn = findViewById(R.id.recordButton);
         playBtn = findViewById(R.id.startPlayback);
         stopPlayBtn = findViewById(R.id.stopPlayback);
@@ -65,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                 mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
                 mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-                mRecorder.setOutputFile(String.valueOf(audioRef));
+                mRecorder.setOutputFile(String.valueOf(mFileName));
                 try {
                     mRecorder.prepare();
                 } catch (IOException e) {
@@ -120,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE);
         int result2 = ContextCompat.checkSelfPermission(getApplicationContext(), RECORD_AUDIO);
         int result3 = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_MEDIA_AUDIO);
-        return ((result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED)||(result3 == PackageManager.PERMISSION_GRANTED) )&& result2 == PackageManager.PERMISSION_GRANTED;
+        return ((result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED)||(result3 == PackageManager.PERMISSION_GRANTED) )&& (result2 == PackageManager.PERMISSION_GRANTED);
     }
     private void RequestPermissions() {
         Log.d(LOG_TAG,"Starting request");
