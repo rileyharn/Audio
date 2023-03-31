@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
                 recording = false;
                 startBtn.setEnabled(true);
                 playBtn.setEnabled(true);
-                stopPlayBtn.setEnabled(true);
                 mRecorder.stop();
                 mRecorder.release();
                 mRecorder = null;
