@@ -21,14 +21,16 @@ import java.io.IOException;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 public class MainActivity extends AppCompatActivity {
     private Button startBtn, playBtn, stopPlayBtn;
     private MediaRecorder mRecorder;
     private MediaPlayer mPlayer;
     private static final String LOG_TAG = "AudioRecording";
     private static String mFileName = null;
-
-    //Cloud storage stuff
 
 
     private boolean recording = false;
@@ -114,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE);
         int result2 = ContextCompat.checkSelfPermission(getApplicationContext(), RECORD_AUDIO);
         int result3 = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_MEDIA_AUDIO);
-        return ((result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED)||(result3 == PackageManager.PERMISSION_GRANTED) )&& (result2 == PackageManager.PERMISSION_GRANTED);
+        return ((result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED)||(result3 == PackageManager.PERMISSION_GRANTED) )&& result2 == PackageManager.PERMISSION_GRANTED;
     }
     private void RequestPermissions() {
         Log.d(LOG_TAG,"Starting request");
