@@ -1,6 +1,5 @@
 package com.example.audio;
 
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
