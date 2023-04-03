@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Audio"
         tools:targetApi="31">
         <activity
+            android:name=".FileStorageActivity"
+            android:exported="false" />
+        <activity
 
             android:name=".User_Profile"
             android:exported="true">

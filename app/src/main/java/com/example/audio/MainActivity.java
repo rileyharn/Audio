@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Environment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import android.provider.ContactsContract;
 import android.view.View;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +28,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 public class MainActivity extends AppCompatActivity {
     private Button startBtn, playBtn, stopPlayBtn;
@@ -32,7 +36,13 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer mPlayer;
     private static final String LOG_TAG = "AudioRecording";
     private static String mFileName = null;
-    private Button button;
+    private UploadTask uploadTask;
+    //Cloud storage stuff
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private StorageReference storageRef = storage.getReference();
+    private Uri file = Uri.fromFile(new File( Environment.getExternalStorageDirectory() + File.separator
+            + Environment.DIRECTORY_DCIM + File.separator + "test.3gpp"));
+    private StorageReference audioRef = storageRef.child("audios/"+file.getLastPathSegment());
 
 
     private boolean recording = false;
@@ -47,12 +57,14 @@ public class MainActivity extends AppCompatActivity {
         stopPlayBtn = findViewById(R.id.stopPlayback);
         playBtn.setEnabled(false);
         stopPlayBtn.setEnabled(false);
-        mFileName =  Environment.getExternalStorageDirectory() + File.separator
-                + Environment.DIRECTORY_DCIM + File.separator + "test.mpeg4";
-        setContentView(R.layout.activity_main);
+        mFileName = String.valueOf(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM))+"/test.3gpp";
+        Log.d(LOG_TAG,"filepath: "+mFileName);
 
+    }
 
-
+    public void setUploadTask(View view)
+    {
+        uploadTask = audioRef.putFile(file);
     }
 
     public void startRecording(View view){
@@ -65,9 +77,9 @@ public class MainActivity extends AppCompatActivity {
                 stopPlayBtn.setEnabled(false);
                 mRecorder = new MediaRecorder();
                 mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-                mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-                mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-                mRecorder.setOutputFile(String.valueOf(mFileName));
+                mRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
+                mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+                mRecorder.setOutputFile(String.valueOf(audioRef));
                 try {
                     mRecorder.prepare();
                 } catch (IOException e) {
@@ -80,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
                 recording = false;
                 startBtn.setEnabled(true);
                 playBtn.setEnabled(true);
-                stopPlayBtn.setEnabled(true);
                 mRecorder.stop();
                 mRecorder.release();
                 mRecorder = null;
@@ -122,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
         int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE);
         int result2 = ContextCompat.checkSelfPermission(getApplicationContext(), RECORD_AUDIO);
         int result3 = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_MEDIA_AUDIO);
+        Log.d(LOG_TAG,"perms checked");
         return ((result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED)||(result3 == PackageManager.PERMISSION_GRANTED) )&& result2 == PackageManager.PERMISSION_GRANTED;
     }
     private void RequestPermissions() {
@@ -129,6 +141,4 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_MEDIA_AUDIO}, REQUEST_AUDIO_PERMISSION_CODE);
         Log.d(LOG_TAG,"Finished request");
     }
-
-
 }
