@@ -65,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
         uploadTask = audioRef.putFile(file);
     }
 
+    public void setUploadTask(View view)
+    {
+        uploadTask = audioRef.putFile(file);
+    }
     public void startRecording(View view){
         Log.d(LOG_TAG,"Button pressed");
         if(CheckPermissions()) {
@@ -139,5 +143,4 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_MEDIA_AUDIO}, REQUEST_AUDIO_PERMISSION_CODE);
         Log.d(LOG_TAG,"Finished request");
     }
-
 }
