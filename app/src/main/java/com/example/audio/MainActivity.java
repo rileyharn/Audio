@@ -4,6 +4,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Environment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -26,6 +27,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 public class MainActivity extends AppCompatActivity {
     private Button startBtn, playBtn, stopPlayBtn;
@@ -33,6 +35,13 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer mPlayer;
     private static final String LOG_TAG = "AudioRecording";
     private static String mFileName = null;
+    private UploadTask uploadTask;
+    //Cloud storage stuff
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private StorageReference storageRef = storage.getReference();
+    private Uri file = Uri.fromFile(new File( Environment.getExternalStorageDirectory() + File.separator
+            + Environment.DIRECTORY_DCIM + File.separator + "test.3gpp"));
+    private StorageReference audioRef = storageRef.child("audios/"+file.getLastPathSegment());
 
 
     private boolean recording = false;
@@ -51,6 +60,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void setUploadTask(View view)
+    {
+        uploadTask = audioRef.putFile(file);
+    }
+
     public void startRecording(View view){
         Log.d(LOG_TAG,"Button pressed");
         if(CheckPermissions()) {
@@ -63,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                 mRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
                 mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
-                mRecorder.setOutputFile(String.valueOf(mFileName));
+                mRecorder.setOutputFile(String.valueOf(audioRef));
                 try {
                     mRecorder.prepare();
                 } catch (IOException e) {
