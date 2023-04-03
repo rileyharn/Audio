@@ -51,15 +51,6 @@ public class MainActivity extends AppCompatActivity {
                 + Environment.DIRECTORY_DCIM + File.separator + "test.mpeg4";
         setContentView(R.layout.activity_main);
 
-        button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick (View v) {
-                Intent intent = new Intent(getBaseContext(), User_Profile.class);
-                startActivity(intent);
-
-            }
-        });
 
 
     }
