@@ -65,10 +65,6 @@ public class MainActivity extends AppCompatActivity {
         uploadTask = audioRef.putFile(file);
     }
 
-    public void setUploadTask(View view)
-    {
-        uploadTask = audioRef.putFile(file);
-    }
     public void startRecording(View view){
         Log.d(LOG_TAG,"Button pressed");
         if(CheckPermissions()) {
