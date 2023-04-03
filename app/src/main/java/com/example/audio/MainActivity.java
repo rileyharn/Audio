@@ -9,6 +9,8 @@ import android.os.Environment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import android.provider.ContactsContract;
 import android.view.View;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference storageRef = storage.getReference();
     private Uri file = Uri.fromFile(new File( Environment.getExternalStorageDirectory() + File.separator
-            + Environment.DIRECTORY_DCIM + File.separator + "test.mpeg4"));
+            + Environment.DIRECTORY_DCIM + File.separator + "test.3gpp"));
     private StorageReference audioRef = storageRef.child("audios/"+file.getLastPathSegment());
 
 
@@ -53,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
         stopPlayBtn = findViewById(R.id.stopPlayback);
         playBtn.setEnabled(false);
         stopPlayBtn.setEnabled(false);
-        mFileName =  Environment.getExternalStorageDirectory() + File.separator
-                + Environment.DIRECTORY_DCIM + File.separator + "test.mpeg4";
+        mFileName = String.valueOf(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM))+"/test.3gpp";
+        Log.d(LOG_TAG,"filepath: "+mFileName);
 
     }
 
@@ -89,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
                 recording = false;
                 startBtn.setEnabled(true);
                 playBtn.setEnabled(true);
-                stopPlayBtn.setEnabled(true);
                 mRecorder.stop();
                 mRecorder.release();
                 mRecorder = null;
@@ -131,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
         int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE);
         int result2 = ContextCompat.checkSelfPermission(getApplicationContext(), RECORD_AUDIO);
         int result3 = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_MEDIA_AUDIO);
+        Log.d(LOG_TAG,"perms checked");
         return ((result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED)||(result3 == PackageManager.PERMISSION_GRANTED) )&& result2 == PackageManager.PERMISSION_GRANTED;
     }
     private void RequestPermissions() {
