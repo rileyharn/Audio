@@ -14,7 +14,7 @@ public class User_Profile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.userprofile);
 
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener(){
