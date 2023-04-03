@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
     public void setUploadTask(View view)
     {
         uploadTask = audioRef.putFile(file);
+        Toast.makeText(getApplicationContext(), "UploadStarting", Toast.LENGTH_LONG).show();
+
     }
     public void startRecording(View view){
         Log.d(LOG_TAG,"Button pressed");
@@ -74,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                 mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
                 mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-                mRecorder.setOutputFile(String.valueOf(audioRef));
+                mRecorder.setOutputFile(mFileName);
                 try {
                     mRecorder.prepare();
                 } catch (IOException e) {
