@@ -16,15 +16,11 @@ public class User_Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.userprofile);
 
-        button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick (View v) {
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                startActivity(intent);
-
-            }
-        });
-
+        button = findViewById(R.id.button);
     }
-}
+
+    public void switchScreens (View v){
+            Intent intent = new Intent(getBaseContext(), MainActivity.class);
+            startActivity(intent);
+        }
+    }
