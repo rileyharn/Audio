@@ -1,5 +1,7 @@
 package com.example.audio;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -30,10 +32,12 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer mPlayer;
     private static final String LOG_TAG = "AudioRecording";
     private static String mFileName = null;
+    private Button button;
 
 
     private boolean recording = false;
     public static final int REQUEST_AUDIO_PERMISSION_CODE = 1;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +49,18 @@ public class MainActivity extends AppCompatActivity {
         stopPlayBtn.setEnabled(false);
         mFileName =  Environment.getExternalStorageDirectory() + File.separator
                 + Environment.DIRECTORY_DCIM + File.separator + "test.mpeg4";
+        setContentView(R.layout.activity_main);
+
+        button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View v) {
+                Intent intent = new Intent(getBaseContext(), Activity2.class);
+                startActivity(intent);
+
+            }
+        });
+
 
     }
 
@@ -122,5 +138,6 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_MEDIA_AUDIO}, REQUEST_AUDIO_PERMISSION_CODE);
         Log.d(LOG_TAG,"Finished request");
     }
+
 
 }
