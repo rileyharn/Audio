@@ -17,10 +17,14 @@ public class User_Profile extends AppCompatActivity {
         setContentView(R.layout.userprofile);
 
         button = findViewById(R.id.button);
-    }
+        button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View v) {
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                startActivity(intent);
 
-    public void switchScreens (View v){
-            Intent intent = new Intent(getBaseContext(), MainActivity.class);
-            startActivity(intent);
-        }
+            }
+        });
+
     }
+}
