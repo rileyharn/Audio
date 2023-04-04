@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     public void setUploadTask(View view)
     {
         uploadTask = audioRef.putFile(file);
+        Toast.makeText(getApplicationContext(), "UploadStarting", Toast.LENGTH_LONG).show();
     }
 
     public void startRecording(View view){
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                 mRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
                 mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
-                mRecorder.setOutputFile(String.valueOf(audioRef));
+                mRecorder.setOutputFile(mFileName);
                 try {
                     mRecorder.prepare();
                 } catch (IOException e) {
@@ -141,4 +142,7 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_MEDIA_AUDIO}, REQUEST_AUDIO_PERMISSION_CODE);
         Log.d(LOG_TAG,"Finished request");
     }
+
+
+
 }
