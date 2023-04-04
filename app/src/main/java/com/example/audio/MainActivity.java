@@ -76,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
                 stopPlayBtn.setEnabled(false);
                 mRecorder = new MediaRecorder();
                 mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-                mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-                mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+                mRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
+                mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
                 mRecorder.setOutputFile(mFileName);
                 try {
                     mRecorder.prepare();
