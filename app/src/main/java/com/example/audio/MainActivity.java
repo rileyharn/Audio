@@ -1,6 +1,7 @@
 package com.example.audio;
 
-import android.content.pm.ActivityInfo;
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean recording = false;
     public static final int REQUEST_AUDIO_PERMISSION_CODE = 1;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
     {
         uploadTask = audioRef.putFile(file);
         Toast.makeText(getApplicationContext(), "UploadStarting", Toast.LENGTH_LONG).show();
-
     }
+
     public void startRecording(View view){
         Log.d(LOG_TAG,"Button pressed");
         if(CheckPermissions()) {
