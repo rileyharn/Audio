@@ -6,33 +6,59 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="1000dp"
+        android:background="@color/backgroundcolorpurple"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:text="TextView"
+            android:translationY="10dp" />
 
-            <Button
-                android:id="@+id/button5"
-                android:layout_width="184dp"
-                android:layout_height="88dp"
-                android:text="@string/JoinAFamily" />
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="184dp"
+            android:layout_height="88dp"
+            android:backgroundTint="@color/palecolorforbuttons"
+            android:text="@string/JoinAFamily"
+            android:textColor="@color/black"
+            android:translationX="10dp"
+            android:translationY="100dp" />
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="184dp"
-                android:layout_height="88dp"
-                android:text="@string/cickHereToGoToRecordingPage" />
+        <!--<ImageView
+<!-            android:id="@+id/imageView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:scaleX=".2"-->
+<!--            android:scaleY=".2"-->
+<!--            android:translationX="-50dp"-->
+<!--            android:translationY="-350dp"-->
+<!--          />/  app:srcCompat="@drawable/foldericon" />-->
 
-            <Button
-                android:id="@+id/button4"
-                android:layout_width="184dp"
-                android:layout_height="88dp"
-                android:text="@string/CreateAFamily" />
-        </LinearLayout>
-    </ScrollView>
+        <Button
+            android:id="@+id/button"
+            android:layout_width="184dp"
+            android:layout_height="88dp"
+            android:backgroundTint="@color/palecolorforbuttons"
+            android:text="@string/cickHereToGoToRecordingPage"
+            android:textColor="@color/black"
+            android:translationX="10dp"
+            android:translationY="100dp" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="184dp"
+            android:layout_height="88dp"
+            android:backgroundTint="@color/palecolorforbuttons"
+            android:text="@string/CreateAFamily"
+            android:textColor="@color/black"
+            android:translationX="10dp"
+            android:translationY="100dp" />
+
+    </LinearLayout>
 
 </RelativeLayout>
