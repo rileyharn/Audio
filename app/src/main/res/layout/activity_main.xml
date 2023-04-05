@@ -11,6 +11,8 @@
         android:id="@+id/recordingLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/backgroundcolorpurple"
+        android:backgroundTint="@color/backgroundcolorpurple"
         tools:layout_editor_absoluteX="191dp"
         tools:layout_editor_absoluteY="348dp">
 
@@ -71,13 +73,13 @@
                 android:layout_marginEnd="50dp"
                 android:layout_weight="1"
                 android:contentDescription="@string/recordButtonText"
-                android:drawableTint="@color/black"
                 android:onClick="startRecording"
                 app:cornerRadius="250dp"
                 app:icon="@drawable/mic_icon"
                 app:iconGravity="textStart"
                 app:iconPadding="0dp"
-                app:iconTint="?android:attr/colorForegroundInverse"
+                app:iconTint="@color/palecolorforbuttons"
+                app:iconTintMode="src_over"
                 app:toggleCheckedStateOnClick="true" />
         </LinearLayout>
 
