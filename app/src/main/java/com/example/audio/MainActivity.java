@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         stopPlayBtn = findViewById(R.id.stopPlayback);
         playBtn.setEnabled(false);
         stopPlayBtn.setEnabled(false);
-        mFileName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)+"/test.3gpp";
+        mFileName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)+"/test.mp4";
         file = Uri.fromFile(new File(mFileName));
         Log.d(LOG_TAG,"uri: "+file);
 
@@ -104,8 +104,8 @@ public class MainActivity extends AppCompatActivity {
                 stopPlayBtn.setEnabled(false);
                 mRecorder = new MediaRecorder();
                 mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-                mRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
-                mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+                mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+                mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
                 mRecorder.setOutputFile(mFileName);
                 try {
                     mRecorder.prepare();
