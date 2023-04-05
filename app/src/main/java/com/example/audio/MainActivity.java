@@ -1,6 +1,7 @@
 package com.example.audio;
 
 import android.annotation.SuppressLint;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
@@ -15,6 +16,7 @@ import android.provider.ContactsContract;
 import android.view.View;
 import android.os.Bundle;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.Toast;
 import android.Manifest;
@@ -37,12 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = "AudioRecording";
     private static String mFileName = null;
     private UploadTask uploadTask;
-    //Cloud storage stuff
-    private FirebaseStorage storage = FirebaseStorage.getInstance();
-    private StorageReference storageRef = storage.getReference();
-    private Uri file = Uri.fromFile(new File( Environment.getExternalStorageDirectory() + File.separator
-            + Environment.DIRECTORY_DCIM + File.separator + "test.3gpp"));
-    private StorageReference audioRef = storageRef.child("audios/"+file.getLastPathSegment());
+    private Uri file;
 
 
     private boolean recording = false;
@@ -57,13 +54,25 @@ public class MainActivity extends AppCompatActivity {
         stopPlayBtn = findViewById(R.id.stopPlayback);
         playBtn.setEnabled(false);
         stopPlayBtn.setEnabled(false);
-        mFileName = String.valueOf(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM))+"/test.3gpp";
-        Log.d(LOG_TAG,"filepath: "+mFileName);
+        mFileName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)+"/test.3gpp";
+        file = Uri.fromFile(new File(mFileName));
+        Log.d(LOG_TAG,"uri: "+file);
 
     }
 
+    private String getFileExtension(Uri uri ){
+        ContentResolver cR = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
+
+
     public void setUploadTask(View view)
     {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        Log.d(LOG_TAG,"images/"+file.getLastPathSegment());
+        StorageReference audioRef = storageRef.child("images/"+file.getLastPathSegment());
         uploadTask = audioRef.putFile(file);
         Toast.makeText(getApplicationContext(), "UploadStarting", Toast.LENGTH_LONG).show();
     }
