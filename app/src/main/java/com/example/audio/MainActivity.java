@@ -8,6 +8,8 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Environment;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -28,6 +30,8 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -71,10 +75,23 @@ public class MainActivity extends AppCompatActivity {
     {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-        Log.d(LOG_TAG,"images/"+file.getLastPathSegment());
-        StorageReference audioRef = storageRef.child("images/"+file.getLastPathSegment());
+        Log.d(LOG_TAG,"audios/"+file.getLastPathSegment());
+        StorageReference audioRef = storageRef.child("audios/"+file.getLastPathSegment());
         uploadTask = audioRef.putFile(file);
         Toast.makeText(getApplicationContext(), "UploadStarting", Toast.LENGTH_LONG).show();
+
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+            Log.d(LOG_TAG, "upload task failed");
+            Log.d(LOG_TAG, Log.getStackTraceString(null));
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.d(LOG_TAG, "upload task successful");
+            }
+        });
     }
 
     public void startRecording(View view){
@@ -155,3 +172,5 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
+//: if
+//  request.time < timestamp.date(2023, 5, 30);
