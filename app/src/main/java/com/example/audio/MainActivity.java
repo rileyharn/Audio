@@ -1,12 +1,15 @@
 package com.example.audio;
 
 import android.annotation.SuppressLint;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Environment;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -15,6 +18,7 @@ import android.provider.ContactsContract;
 import android.view.View;
 import android.os.Bundle;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.Toast;
 import android.Manifest;
@@ -26,6 +30,8 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -37,12 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = "AudioRecording";
     private static String mFileName = null;
     private UploadTask uploadTask;
-    //Cloud storage stuff
-    private FirebaseStorage storage = FirebaseStorage.getInstance();
-    private StorageReference storageRef = storage.getReference();
-    private Uri file = Uri.fromFile(new File( Environment.getExternalStorageDirectory() + File.separator
-            + Environment.DIRECTORY_DCIM + File.separator + "test.3gpp"));
-    private StorageReference audioRef = storageRef.child("audios/"+file.getLastPathSegment());
+    private Uri file;
 
 
     private boolean recording = false;
@@ -57,14 +58,40 @@ public class MainActivity extends AppCompatActivity {
         stopPlayBtn = findViewById(R.id.stopPlayback);
         playBtn.setEnabled(false);
         stopPlayBtn.setEnabled(false);
-        mFileName = String.valueOf(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM))+"/test.3gpp";
-        Log.d(LOG_TAG,"filepath: "+mFileName);
+        mFileName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)+"/test.3gpp";
+        file = Uri.fromFile(new File(mFileName));
+        Log.d(LOG_TAG,"uri: "+file);
 
     }
 
+    private String getFileExtension(Uri uri ){
+        ContentResolver cR = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
+
+
     public void setUploadTask(View view)
     {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        Log.d(LOG_TAG,"audios/"+file.getLastPathSegment());
+        StorageReference audioRef = storageRef.child("audios/"+file.getLastPathSegment());
         uploadTask = audioRef.putFile(file);
+        Toast.makeText(getApplicationContext(), "UploadStarting", Toast.LENGTH_LONG).show();
+
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+            Log.d(LOG_TAG, "upload task failed");
+            Log.d(LOG_TAG, Log.getStackTraceString(null));
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.d(LOG_TAG, "upload task successful");
+            }
+        });
     }
 
     public void startRecording(View view){
@@ -79,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                 mRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
                 mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
-                mRecorder.setOutputFile(String.valueOf(audioRef));
+                mRecorder.setOutputFile(mFileName);
                 try {
                     mRecorder.prepare();
                 } catch (IOException e) {
@@ -141,4 +168,9 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_MEDIA_AUDIO}, REQUEST_AUDIO_PERMISSION_CODE);
         Log.d(LOG_TAG,"Finished request");
     }
+
+
+
 }
+//: if
+//  request.time < timestamp.date(2023, 5, 30);
