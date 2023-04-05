@@ -1,33 +1,34 @@
 {
   "project_info": {
-    "project_number": "123517049464",
-    "project_id": "audio-b4277",
-    "storage_bucket": "audio-b4277.appspot.com"
+    "project_number": "137502267790",
+    "firebase_url": "https://audio-334b4-default-rtdb.firebaseio.com",
+    "project_id": "audio-334b4",
+    "storage_bucket": "audio-334b4.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:123517049464:android:cc428019d458fdaba7eb8d",
+        "mobilesdk_app_id": "1:137502267790:android:9256504addccc80bbbacdf",
         "android_client_info": {
           "package_name": "com.example.audio"
         }
       },
       "oauth_client": [
         {
-          "client_id": "123517049464-bi2p6cjudn9p2sdvq4v0ju11bou7le59.apps.googleusercontent.com",
+          "client_id": "137502267790-a97jp6r8uqjgdfqvlkcpqsef71p1bjh5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBhGczTJQkt_5FAowbUKSYrf2LrgU5vT6E"
+          "current_key": "AIzaSyCpQlXI6LX2-Cpuq8ZwmI9KX9Unuc8oW48"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "123517049464-bi2p6cjudn9p2sdvq4v0ju11bou7le59.apps.googleusercontent.com",
+              "client_id": "137502267790-a97jp6r8uqjgdfqvlkcpqsef71p1bjh5.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
