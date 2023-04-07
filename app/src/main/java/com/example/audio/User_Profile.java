@@ -3,7 +3,6 @@ package com.example.audio;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +16,7 @@ public class User_Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.userprofile);
 
-        button = findViewById(R.id.button2);
+        button = findViewById(R.id.recordNowButton);
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick (View v) {

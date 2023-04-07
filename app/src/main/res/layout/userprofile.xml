@@ -30,7 +30,7 @@
         <!--          />/  app:srcCompat="@drawable/foldericon" />-->
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/joinAFamilyGroupButton"
             android:layout_width="184dp"
             android:layout_height="88dp"
             android:backgroundTint="@color/palecolorforbuttons"
@@ -46,7 +46,7 @@
             app:iconTintMode="src_over" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/recordNowButton"
             android:layout_width="184dp"
             android:layout_height="88dp"
             android:backgroundTint="@color/palecolorforbuttons"
