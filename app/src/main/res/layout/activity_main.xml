@@ -17,6 +17,21 @@
         tools:layout_editor_absoluteY="348dp">
 
         <Button
+            android:id="@+id/playDownloadButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="18dp"
+            android:onClick="startDownloadPlay"
+            android:text="PLAY DWNLD"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/uploadButton"
+            app:layout_constraintTop_toBottomOf="@+id/downloadButton" />
+
+        <Button
             android:id="@+id/stopPlayback"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,6 +71,7 @@
             app:iconTint="#972323"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.111"
             app:layout_constraintStart_toStartOf="parent" />
 
         <LinearLayout
@@ -86,6 +102,21 @@
                 app:iconTintMode="src_over"
                 app:toggleCheckedStateOnClick="true" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/downloadButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="73dp"
+            android:onClick="setDownloadFileName"
+            android:text="DOWNLOAD"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/uploadButton"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
