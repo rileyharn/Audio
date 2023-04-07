@@ -28,6 +28,9 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
+         <activity
+             android:name=".Create_A_Family"
+            android:exported="false"/>
     </application>
 
 </manifest>

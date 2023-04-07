@@ -5,6 +5,10 @@
     <string name="createAGroup">Create A Group</string>
     <string name="joinAGroup">Join A Group</string>
     <string name="cickHereToGoToRecordingPage">Record Now</string>
-    <string name="JoinAFamily">Join A Family</string>
-    <string name="CreateAFamily">Create A Family</string>
+    <string name="JoinAFamily">Join A Family Group</string>
+    <string name="CreateAFamily">Create A Family Group</string>
+    <string name="userName">Username</string>
+    <string name="email">Email</string>
+
+
 </resources>
