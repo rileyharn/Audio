@@ -1,24 +1,19 @@
 package com.example.audio;
 
 import android.annotation.SuppressLint;
-import android.content.ContentResolver;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Environment;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import android.provider.ContactsContract;
 import android.view.View;
 import android.os.Bundle;
 import android.util.Log;
-import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.Toast;
 import android.Manifest;
@@ -30,9 +25,6 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -46,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
     private static String downloadFileName;
     private UploadTask uploadTask;
     private Uri file, dfile;
-
-
     private boolean recording = false;
     public static final int REQUEST_AUDIO_PERMISSION_CODE = 1;
     @SuppressLint("MissingInflatedId")
@@ -68,13 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private String getFileExtension(Uri uri ){
-        ContentResolver cR = getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(cR.getType(uri));
-    }
-
-
     public void setUploadTask(View view)
     {
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -84,18 +67,10 @@ public class MainActivity extends AppCompatActivity {
         uploadTask = audioRef.putFile(file);
         Toast.makeText(getApplicationContext(), "UploadStarting", Toast.LENGTH_LONG).show();
 
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-            Log.d(LOG_TAG, "upload task failed");
-            Log.d(LOG_TAG, Log.getStackTraceString(null));
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Log.d(LOG_TAG, "upload task successful");
-            }
-        });
+        uploadTask.addOnFailureListener(exception -> {
+        Log.d(LOG_TAG, "upload task failed");
+        Log.d(LOG_TAG, Log.getStackTraceString(null));
+        }).addOnSuccessListener(taskSnapshot -> Log.d(LOG_TAG, "upload task successful"));
     }
 
     public void startRecording(View view){
@@ -154,17 +129,7 @@ public class MainActivity extends AppCompatActivity {
         StorageReference storageRef = storage.getReference();
         StorageReference audioRef = storageRef.child("audios/song.mp4");
 
-        audioRef.getFile(dfile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot){
-                Log.d(LOG_TAG,"download successful");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Log.d(LOG_TAG,"download failed");
-            }
-        });
+        audioRef.getFile(dfile).addOnSuccessListener(taskSnapshot -> Log.d(LOG_TAG,"download successful")).addOnFailureListener(exception -> Log.d(LOG_TAG,"download failed"));
 
     }
 
