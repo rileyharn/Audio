@@ -32,6 +32,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -42,8 +43,9 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer mPlayer;
     private static final String LOG_TAG = "AudioRecording";
     private static String mFileName = null;
+    private static String downloadFileName;
     private UploadTask uploadTask;
-    private Uri file;
+    private Uri file, dfile;
 
 
     private boolean recording = false;
@@ -58,8 +60,10 @@ public class MainActivity extends AppCompatActivity {
         stopPlayBtn = findViewById(R.id.stopPlayback);
         playBtn.setEnabled(false);
         stopPlayBtn.setEnabled(false);
-        mFileName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)+"/test.3gpp";
+        mFileName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)+"/test.mp4";
+        downloadFileName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)+"/download.mp4";
         file = Uri.fromFile(new File(mFileName));
+        dfile = Uri.fromFile(new File(downloadFileName));
         Log.d(LOG_TAG,"uri: "+file);
 
     }
@@ -104,8 +108,8 @@ public class MainActivity extends AppCompatActivity {
                 stopPlayBtn.setEnabled(false);
                 mRecorder = new MediaRecorder();
                 mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-                mRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
-                mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+                mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+                mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
                 mRecorder.setOutputFile(mFileName);
                 try {
                     mRecorder.prepare();
@@ -129,6 +133,39 @@ public class MainActivity extends AppCompatActivity {
         {
             RequestPermissions();
         }
+    }
+
+    public void startDownloadPlay(View v){
+        mPlayer = new MediaPlayer();
+        stopPlayBtn.setEnabled(true);
+        try{
+            mPlayer.setDataSource(downloadFileName);
+            mPlayer.prepare();
+            mPlayer.start();
+            Toast.makeText(getApplicationContext(), "Recording Started Playing", Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "prepare() failed");
+        }
+
+    }
+
+    public void setDownloadFileName(View view){
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        StorageReference audioRef = storageRef.child("audios/song.mp4");
+
+        audioRef.getFile(dfile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot){
+                Log.d(LOG_TAG,"download successful");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.d(LOG_TAG,"download failed");
+            }
+        });
+
     }
 
     public void startPlay(View view){
@@ -172,5 +209,3 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
-//: if
-//  request.time < timestamp.date(2023, 5, 30);
