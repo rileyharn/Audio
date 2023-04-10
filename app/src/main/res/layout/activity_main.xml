@@ -11,8 +11,7 @@
         android:id="@+id/recordingLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/backgroundcolorpurple"
-        android:backgroundTint="@color/backgroundcolorpurple"
+        android:background="?attr/colorOnBackground"
         tools:layout_editor_absoluteX="191dp"
         tools:layout_editor_absoluteY="348dp">
 
@@ -25,7 +24,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="18dp"
             android:onClick="startDownloadPlay"
-            android:text="PLAY DWNLD"
+            android:text="Play Download"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/uploadButton"
@@ -37,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="stopPlay"
-            android:text="Stop"
+            android:text="@string/stopButtonText"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout"
             app:layout_constraintEnd_toStartOf="@+id/startPlayback"
             app:layout_constraintHorizontal_bias="0.5"
@@ -50,7 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="startPlay"
-            android:text="Play"
+            android:text="@string/startButtonText"
+            android:textColor="?attr/colorOnPrimary"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -67,12 +67,13 @@
             android:background="#7C6F6F"
             android:backgroundTint="#CA1616"
             android:onClick="setUploadTask"
-            android:text="Upload"
+            android:text="@string/uploadButtonText"
             app:iconTint="#972323"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.111"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:rippleColor="?attr/colorPrimary" />
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -91,15 +92,15 @@
                 android:layout_marginStart="50dp"
                 android:layout_marginEnd="50dp"
                 android:layout_weight="1"
-                android:backgroundTint="#BF4040"
+                android:backgroundTint="?attr/colorSecondary"
                 android:contentDescription="@string/recordButtonText"
                 android:onClick="startRecording"
                 app:cornerRadius="250dp"
                 app:icon="@drawable/mic_icon"
                 app:iconGravity="textStart"
                 app:iconPadding="0dp"
-                app:iconTint="@color/palecolorforbuttons"
-                app:iconTintMode="src_over"
+                app:iconTint="?attr/colorOnSecondary"
+                app:iconTintMode="src_in"
                 app:toggleCheckedStateOnClick="true" />
         </LinearLayout>
 
