@@ -4,120 +4,122 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_weight="0.25"
+    android:background="?attr/colorOnBackground"
     android:foregroundTint="#FFFF"
     tools:context=".MainActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/recordingLayout"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/colorOnBackground"
-        tools:layout_editor_absoluteX="191dp"
-        tools:layout_editor_absoluteY="348dp">
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/playDownloadButton"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="18dp"
-            android:onClick="startDownloadPlay"
-            android:text="Play Download"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/uploadButton"
-            app:layout_constraintTop_toBottomOf="@+id/downloadButton" />
-
-        <Button
-            android:id="@+id/stopPlayback"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="stopPlay"
-            android:text="@string/stopButtonText"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-            app:layout_constraintEnd_toStartOf="@+id/startPlayback"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/startPlayback"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="startPlay"
-            android:text="@string/startButtonText"
-            android:textColor="?attr/colorOnPrimary"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/stopPlayback"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/uploadButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="150dp"
-            android:layout_marginEnd="150dp"
-            android:layout_marginBottom="32dp"
-            android:background="#7C6F6F"
-            android:backgroundTint="#CA1616"
-            android:onClick="setUploadTask"
-            android:text="@string/uploadButtonText"
-            app:iconTint="#972323"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.111"
-            app:layout_constraintStart_toStartOf="parent"
-            app:rippleColor="?attr/colorPrimary" />
-
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_weight="0.125">
 
             <Button
-                android:id="@+id/recordButton"
-                android:layout_width="0dp"
-                android:layout_height="500dp"
-                android:layout_marginStart="50dp"
-                android:layout_marginEnd="50dp"
+                android:id="@+id/startPlayback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="?attr/colorSecondary"
-                android:contentDescription="@string/recordButtonText"
-                android:onClick="startRecording"
-                app:cornerRadius="250dp"
-                app:icon="@drawable/mic_icon"
-                app:iconGravity="textStart"
-                app:iconPadding="0dp"
-                app:iconTint="?attr/colorOnSecondary"
-                app:iconTintMode="src_in"
-                app:toggleCheckedStateOnClick="true" />
+                android:onClick="startPlay"
+                android:text="@string/startButtonText"
+                android:textColor="?attr/colorOnPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/stopPlayback"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/stopPlayback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="stopPlay"
+                android:text="@string/stopButtonText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/startPlayback"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/recordLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.75"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="0.75" >
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1" />
+
+                <Button
+                    android:id="@+id/recordButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="0.9"
+                    android:backgroundTint="?attr/colorSecondary"
+                    android:contentDescription="@string/recordButtonText"
+                    android:onClick="startRecording"
+                    app:cornerRadius="250dp"
+                    app:icon="@drawable/mic_icon"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:iconTint="?attr/colorOnSecondary"
+                    app:iconTintMode="src_in"
+                    app:toggleCheckedStateOnClick="true" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1" />
+
         </LinearLayout>
 
-        <Button
-            android:id="@+id/downloadButton"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="73dp"
-            android:onClick="setDownloadFileName"
-            android:text="DOWNLOAD"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/uploadButton"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+            android:layout_weight="0.125">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/uploadButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="setUploadTask"
+                android:text="@string/uploadButtonText"
+                app:iconTint="#972323"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:rippleColor="?attr/colorPrimary" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
