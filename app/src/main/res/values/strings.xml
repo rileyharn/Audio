@@ -9,6 +9,9 @@
     <string name="CreateAFamily">Create A Family Group</string>
     <string name="userName">Username</string>
     <string name="email">Email</string>
+    <string name="startButtonText">Start</string>
+    <string name="uploadButtonText">Upload</string>
+    <string name="stopButtonText">Stop</string>
 
 
 </resources>
