@@ -1,5 +1,6 @@
 package com.example.audio;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,10 +8,18 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
+import com.firebase.ui.auth.IdpResponse;
+import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.SignInClient;
@@ -29,6 +38,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class LoginScreen extends AppCompatActivity {
     private static final int RC_SIGN_IN = 1;
     private FirebaseAuth mAuth;
@@ -36,8 +48,12 @@ public class LoginScreen extends AppCompatActivity {
     GoogleSignInAccount account;
     private static final int REQ_ONE_TAP = 2;
     private boolean showOneTapUI = true;
-    private static final String LOG_TAG = "AudioRecording";
+    List<AuthUI.IdpConfig> providers = Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build(), new AuthUI.IdpConfig.GoogleBuilder().build());
 
+    Intent presignInIntent = AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(providers).build();
+
+    private static final String LOG_TAG = "AudioRecording";
+    private final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(new FirebaseAuthUIActivityResultContract(), new ActivityResultCallback<FirebaseAuthUIAuthenticationResult>() {@Override public void onActivityResult(FirebaseAuthUIAuthenticationResult result) {onSignInResult(result);}});
     @Override
     protected void onCreate(Bundle savedInstanceState) {
       //  findViewById(R.id.googleSignInButton).setOnClickListener((View.OnClickListener) this);
@@ -47,30 +63,45 @@ public class LoginScreen extends AppCompatActivity {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
+        signInLauncher.launch(presignInIntent);
 
     }
 
     public void signIn(View v) {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        Log.d(LOG_TAG,"signin clicked, intent initialized");
         startActivityForResult(signInIntent, RC_SIGN_IN);
+//        ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+//                new ActivityResultContracts.StartActivityForResult(),
+//                new ActivityResultCallback<ActivityResult>() {
+//
+//                    @Override
+//                    public void onActivityResult(ActivityResult result) {
+//                        if (result.getResultCode() == Activity.RESULT_OK) {
+//
+//
+//
+//                        }
+//                    }
+//                });
+        //someActivityResultLauncher.launch(signInIntent);
+
+    //  startActivity(signInIntent);
         TextView tv1 = (TextView)findViewById(R.id.currentUserText);
 
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
-        }
-    }
-
-
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+//        if (requestCode == RC_SIGN_IN) {
+//            // The Task returned from this call is always completed, no need to attach
+//            // a listener.
+//            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+//            handleSignInResult(task);
+//        }
+//    }
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             account = completedTask.getResult(ApiException.class);
@@ -92,14 +123,24 @@ public class LoginScreen extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Sign out successful", Toast.LENGTH_LONG).show();
         TextView tv1 = (TextView)findViewById(R.id.currentUserText);
         tv1.setText("Signed out");
+        signInLauncher.launch(presignInIntent);
     }
-
-    public void debugEmail(View v){
-        Toast.makeText(getApplicationContext(), "email: " + account.getEmail(), Toast.LENGTH_LONG).show();
-    }
-
     public void switchToUserProfilexml(View v){
         Intent intent = new Intent(getBaseContext(), User_Profile.class);
         startActivity(intent);
+    }
+
+    private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
+        IdpResponse response = result.getIdpResponse();
+        if (result.getResultCode() == RESULT_OK) {
+            // Successfully signed in
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            // ...
+        } else {
+            // Sign in failed. If response is null the user canceled the
+            // sign-in flow using the back button. Otherwise check
+            // response.getError().getErrorCode() and handle the error.
+            // ...
+        }
     }
 }
