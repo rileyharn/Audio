@@ -31,8 +31,8 @@
         <activity
             android:name=".User_Profile"
             android:exported="false" />
-         <activity
-             android:name=".Create_A_Family"
+        <activity
+            android:name=".Create_A_Family"
             android:exported="false"/>
     </application>
 
