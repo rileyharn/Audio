@@ -1,28 +1,24 @@
 package com.example.audio;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-import android.view.View;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.Toast;
 import android.Manifest;
 
+import java.io.File;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     //variables for audio recorder
     private static final String LOG_TAG = "AudioRecordTest";
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
-    private static String fileName = null;
+    private File outputFile = null;
+    private File rootPath = null;
     private String [] permissions = {Manifest.permission.RECORD_AUDIO};
 
     //Media recorder and player object instantiated as null
@@ -49,6 +45,13 @@ public class MainActivity extends AppCompatActivity {
         playButton = findViewById(R.id.startPlayback);
         stopButton = findViewById(R.id.stopPlayback);
 
+        //getting current user for filesystem
+        //TODO: implement transition of username through activities
+        rootPath = new File(getExternalFilesDir(null), username);
+        if(!rootPath.exists()) {
+            rootPath.mkdirs();
+        }
+
         //disable buttons that cannot be used before recording
         playButton.setEnabled(false);
         stopButton.setEnabled(false);
@@ -68,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             stopButton.setEnabled(true);
             player = new MediaPlayer();
             try {
-                player.setDataSource(fileName);
+                player.setDataSource(outputFile.getAbsolutePath());
                 player.prepare();
                 player.start();
             } catch (IOException e) {
@@ -89,14 +92,13 @@ public class MainActivity extends AppCompatActivity {
             player.release();
             player = null;
         }
-        fileName = getExternalCacheDir().getAbsolutePath();
-        fileName += "/audiorecordtest.mp4";
+        outputFile = new File(rootPath,"test.mp4");
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
         isRecording = true;
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        recorder.setOutputFile(fileName);
+        recorder.setOutputFile(outputFile.getAbsolutePath());
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         try {
             recorder.prepare();
