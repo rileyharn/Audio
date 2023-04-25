@@ -30,6 +30,9 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
+            android:name=".Database"
+            android:exported="false" />
+        <activity
             android:name=".User_Profile"
             android:exported="false" />
          <activity
