@@ -40,30 +40,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="171dp"
-        android:layout_marginBottom="48dp"
         android:onClick="signOut"
         android:text="Sign Out"
-        app:layout_constraintBottom_toTopOf="@+id/debugEmailButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.118"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/googleSignInButton" />
-
-    <Button
-        android:id="@+id/debugEmailButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="196dp"
-        android:layout_marginEnd="274dp"
-        android:layout_marginBottom="142dp"
-        android:onClick="debugEmail"
-        android:text="DebugToast"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signoutButton" />
 
     <Button
         android:id="@+id/button8"
@@ -72,10 +54,8 @@
         android:layout_marginStart="19dp"
         android:layout_marginTop="39dp"
         android:layout_marginEnd="298dp"
-        android:layout_marginBottom="157dp"
         android:onClick="switchToUserProfilexml"
         android:text="NextActivity"
-        app:layout_constraintBottom_toTopOf="@+id/debugEmailButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signoutButton" />

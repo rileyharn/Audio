@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         stopPlayBtn = findViewById(R.id.stopPlayback);
         playBtn.setEnabled(false);
         stopPlayBtn.setEnabled(false);
+        //filename to be changed to create different files
         mFileName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)+"/test.mp4";
         downloadFileName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)+"/download.mp4";
         file = Uri.fromFile(new File(mFileName));
