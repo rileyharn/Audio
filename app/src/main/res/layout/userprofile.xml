@@ -24,20 +24,22 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="115dp"
-            android:layout_height="141dp"
+            android:layout_width="205dp"
+            android:layout_height="210dp"
             android:layout_gravity="center"
             android:translationY="20dp"
             app:srcCompat="@drawable/untitled_design_1_" />
 
         <Button
             android:id="@+id/joinAFamilyGroupButton"
-            android:layout_width="184dp"
+            android:layout_width="match_parent"
             android:layout_height="88dp"
+            android:layout_gravity="center"
             android:backgroundTint="@color/tan"
+            android:fontFamily="sans-serif-black"
             android:text="@string/JoinAFamily"
             android:textColor="@color/black"
-            android:translationX="10dp"
+            android:textSize="24sp"
             android:translationY="100dp"
             app:icon="@drawable/untitled_artwork_7"
             app:iconGravity="start"
@@ -48,12 +50,14 @@
 
         <Button
             android:id="@+id/recordNowButton"
-            android:layout_width="184dp"
+            android:layout_width="411dp"
             android:layout_height="88dp"
+            android:layout_gravity="center"
             android:backgroundTint="@color/tan"
+            android:fontFamily="sans-serif-black"
             android:text="@string/cickHereToGoToRecordingPage"
             android:textColor="@color/black"
-            android:translationX="10dp"
+            android:textSize="24sp"
             android:translationY="100dp"
             app:icon="@drawable/mic_icon"
             app:iconGravity="start"
@@ -64,12 +68,14 @@
 
         <Button
             android:id="@+id/button3"
-            android:layout_width="184dp"
+            android:layout_width="411dp"
             android:layout_height="88dp"
+            android:layout_gravity="center"
             android:backgroundTint="@color/tan"
+            android:fontFamily="sans-serif-black"
             android:text="@string/CreateAFamily"
             android:textColor="@color/black"
-            android:translationX="10dp"
+            android:textSize="24sp"
             android:translationY="100dp"
             app:icon="@drawable/untitled_artwork_7"
             app:iconGravity="start"
