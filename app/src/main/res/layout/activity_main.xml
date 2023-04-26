@@ -41,10 +41,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="stopPlay"
-                android:textColor="?attr/colorOnPrimary"
-                android:text="@string/stopButtonText"
                 android:backgroundTint="?attr/colorPrimary"
+                android:onClick="stopPlay"
+                android:text="@string/stopButtonText"
+                android:textColor="?attr/colorOnPrimary"
                 app:backgroundTint="?attr/colorPrimary"
                 app:cornerRadius="1000000dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -69,8 +69,8 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_weight="0.75" >
+                android:layout_weight="0.75"
+                android:orientation="vertical">
 
                 <Space
                     android:layout_width="match_parent"
@@ -118,9 +118,9 @@
                 android:id="@+id/uploadButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="?attr/colorPrimary"
                 android:onClick="setUploadTask"
                 android:text="@string/uploadButtonText"
-                android:backgroundTint="?attr/colorPrimary"
                 app:backgroundTint="?attr/colorPrimary"
                 app:cornerRadius="1000000dp"
                 app:layout_constraintBottom_toBottomOf="parent"
