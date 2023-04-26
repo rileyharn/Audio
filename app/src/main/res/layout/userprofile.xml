@@ -12,13 +12,6 @@
         android:background="?attr/colorOnBackground"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Hearitage"
-            android:translationY="10dp" />
-
         <!--<ImageView
 <!-            android:id="@+id/imageView"-->
         <!--            android:layout_width="match_parent"-->
@@ -29,13 +22,21 @@
         <!--            android:translationY="-350dp"-->
         <!--          />/  app:srcCompat="@drawable/foldericon" />-->
 
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="115dp"
+            android:layout_height="141dp"
+            android:layout_gravity="center"
+            android:translationY="20dp"
+            app:srcCompat="@drawable/untitled_design_1_" />
+
         <Button
             android:id="@+id/joinAFamilyGroupButton"
             android:layout_width="184dp"
             android:layout_height="88dp"
-            android:backgroundTint="?attr/colorPrimary"
+            android:backgroundTint="@color/tan"
             android:text="@string/JoinAFamily"
-            android:textColor="?attr/colorOnPrimary"
+            android:textColor="@color/black"
             android:translationX="10dp"
             android:translationY="100dp"
             app:icon="@drawable/untitled_artwork_7"
@@ -49,9 +50,9 @@
             android:id="@+id/recordNowButton"
             android:layout_width="184dp"
             android:layout_height="88dp"
-            android:backgroundTint="?attr/colorPrimary"
+            android:backgroundTint="@color/tan"
             android:text="@string/cickHereToGoToRecordingPage"
-            android:textColor="?attr/colorOnPrimary"
+            android:textColor="@color/black"
             android:translationX="10dp"
             android:translationY="100dp"
             app:icon="@drawable/mic_icon"
@@ -65,9 +66,9 @@
             android:id="@+id/button3"
             android:layout_width="184dp"
             android:layout_height="88dp"
-            android:backgroundTint="?attr/colorPrimary"
+            android:backgroundTint="@color/tan"
             android:text="@string/CreateAFamily"
-            android:textColor="?attr/colorOnPrimary"
+            android:textColor="@color/black"
             android:translationX="10dp"
             android:translationY="100dp"
             app:icon="@drawable/untitled_artwork_7"
