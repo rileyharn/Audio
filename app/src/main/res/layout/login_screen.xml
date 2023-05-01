@@ -1,61 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/googleSignInButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
-        android:layout_marginEnd="182dp"
-        android:layout_marginBottom="413dp"
-        android:onClick="signIn"
-        android:text="Sign In"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.115"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/currentUserText" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1000dp"
+        android:background="?attr/colorOnBackground"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/currentUserText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="124dp"
-        android:layout_marginBottom="55dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/googleSignInButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.674"
-        app:layout_constraintStart_toEndOf="@+id/googleSignInButton"
-        app:layout_constraintTop_toTopOf="parent" />
+        <!--<ImageView
+<!-            android:id="@+id/imageView"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:scaleX=".2"-->
+        <!--            android:scaleY=".2"-->
+        <!--            android:translationX="-50dp"-->
+        <!--            android:translationY="-350dp"-->
+        <!--          />/  app:srcCompat="@drawable/foldericon" />-->
 
-    <Button
-        android:id="@+id/signoutButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="171dp"
-        android:onClick="signOut"
-        android:text="Sign Out"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.118"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/googleSignInButton" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="205dp"
+            android:layout_height="210dp"
+            android:layout_gravity="center"
+            android:translationY="20dp"
+            app:srcCompat="@drawable/untitled_design_1_" />
 
-    <Button
-        android:id="@+id/button8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="19dp"
-        android:layout_marginTop="39dp"
-        android:layout_marginEnd="298dp"
-        android:onClick="switchToUserProfilexml"
-        android:text="NextActivity"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signoutButton" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/joinAFamilyGroupButton"
+            android:layout_width="match_parent"
+            android:layout_height="88dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/tan"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/login"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:translationY="100dp"
+            app:icon="@drawable/foldericon"
+            app:iconGravity="start"
+            app:iconPadding="4dp"
+            app:iconSize="70dp"
+            app:iconTint="@android:color/transparent"
+            app:iconTintMode="src_over" />
+
+        <Button
+            android:id="@+id/recordNowButton"
+            android:layout_width="411dp"
+            android:layout_height="88dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/tan"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/signout"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:translationY="100dp"
+            app:icon="@drawable/foldericon"
+            app:iconGravity="start"
+            app:iconPadding="4dp"
+            app:iconSize="70dp"
+            app:iconTint="@android:color/transparent"
+            app:iconTintMode="src_over" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>
