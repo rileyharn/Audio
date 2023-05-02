@@ -15,47 +15,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:translationY="50dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/enterNameOfFamily" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:translationY="50dp">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:layout_editor_absoluteY="675dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/CreateAFamily" />
-
-                    <Button
-                        android:id="@+id/button4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Button" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:id="@+id/editTextTextPersonName2"
+            android:layout_width="340dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:shadowColor="@color/black"
+            android:text="@string/enterNameOfFamily"
+            android:textColorHint="@color/tan"
+            android:translationY="100dp" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
