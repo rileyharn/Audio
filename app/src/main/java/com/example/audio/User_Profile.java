@@ -49,6 +49,11 @@ public class User_Profile extends AppCompatActivity {
 
 
         }
+        public void databaseActivity(View v){
+            Intent intent = new Intent(getBaseContext(), Database.class);
+            startActivity(intent);
+
+        }
     }
 
 

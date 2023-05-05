@@ -5,10 +5,16 @@ import androidx.core.app.ActivityCompat;
 
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.Manifest;
+
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,8 +30,12 @@ public class MainActivity extends AppCompatActivity {
     //Media recorder and player object instantiated as null
     private MediaRecorder recorder = null;
     private MediaPlayer player = null;
-
+    //Firebase Storage variables n stuff
+    FirebaseStorage storage;
+    StorageReference storageRef;
+    private UploadTask uploadTask;
     //Misc variables
+
     private boolean isRecording = false;
     private boolean hasRecorded = false;
     private String username = "testUser";
@@ -39,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //firebase setup
+        storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
 
         //setting buttons from view
         recordButton = findViewById(R.id.recordButton);
@@ -116,4 +130,14 @@ public class MainActivity extends AppCompatActivity {
         recorder = null;
         isRecording = false;
     }
-}
+
+    private void setUploadTask(View v){
+        StorageReference audioRef = storageRef.child("audios/"+outputFile.getAbsolutePath());
+        uploadTask = audioRef.putFile(Uri.fromFile(outputFile));
+        uploadTask.addOnFailureListener(exception -> {
+            Log.d(LOG_TAG, "upload task failed");
+            Log.d(LOG_TAG, Log.getStackTraceString(null));
+        }).addOnSuccessListener(taskSnapshot -> Log.d(LOG_TAG, "upload task successful"));
+    }
+    }
+
