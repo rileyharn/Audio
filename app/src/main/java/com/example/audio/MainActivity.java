@@ -131,13 +131,14 @@ public class MainActivity extends AppCompatActivity {
         isRecording = false;
     }
 
-    private void setUploadTask(View v){
-        StorageReference audioRef = storageRef.child("audios/"+outputFile.getAbsolutePath());
-        uploadTask = audioRef.putFile(Uri.fromFile(outputFile));
+    public void setUploadTask(View v){
+        StorageReference audioRef = storageRef.child("audios/"+outputFile.getAbsolutePath().toString());
+        uploadTask = audioRef.putFile(Uri.fromFile(new File(outputFile.getAbsolutePath())));
         uploadTask.addOnFailureListener(exception -> {
             Log.d(LOG_TAG, "upload task failed");
             Log.d(LOG_TAG, Log.getStackTraceString(null));
         }).addOnSuccessListener(taskSnapshot -> Log.d(LOG_TAG, "upload task successful"));
     }
+
     }
 

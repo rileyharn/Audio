@@ -1,6 +1,8 @@
 package com.example.audio;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -38,13 +40,16 @@ public class Database extends AppCompatActivity {
 
     private String emailPath;
     private File outputFile;
+    private Uri file;
+    private MediaPlayer player = null;
     //
     private DatabaseReference mDatabase;
 // ...
 
     FirebaseDatabase database;
     DatabaseReference myRef;
-
+    FirebaseStorage storage;
+    StorageReference storageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +59,8 @@ public class Database extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("users/hi");
 
-
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
 
         downloadFiles();
 
@@ -77,10 +83,9 @@ public class Database extends AppCompatActivity {
 
 
     public void uploadFiles(){
-//        FirebaseStorage storage = FirebaseStorage.getInstance();
-//        StorageReference storageRef = storage.getReference();
-//        Log.d(LOG_TAG,"audios/"+file.getLastPathSegment());
-//        StorageReference audioRef = storageRef.child("audios/"+file.getLastPathSegment());
+
+        //code for setting uploadtask using email path
+
 
     }
     public void downloadFiles(){
@@ -97,12 +102,16 @@ public class Database extends AppCompatActivity {
                     keyValues.add(childKey);
                     objectValues.add(childValue.toString());
 
+                    storageRef.child("audios/song.mp4").getFile(file).addOnSuccessListener(taskSnapshot -> Log.d(LOG_TAG,"download successful")).addOnFailureListener(exception -> Log.d(LOG_TAG,"download failed"));
+
+
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Handle error
+                Log.d(LOG_TAG, "ondata change method was cancelled");
             }
         });
 
