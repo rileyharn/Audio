@@ -14,4 +14,13 @@
         <!-- Customize your theme here. -->
         <item name="colorOnBackground">@color/purple_100</item>
     </style>
+
+    <style name="Theme.Audio.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Audio.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Audio.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
