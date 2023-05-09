@@ -116,4 +116,7 @@ public class MainActivity extends AppCompatActivity {
         recorder = null;
         isRecording = false;
     }
+    private void setUploadTask(){
+
+    }
 }
