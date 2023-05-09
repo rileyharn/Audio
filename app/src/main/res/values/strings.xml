@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Audio</string>
+    <string name="app_name">Hearitage</string>
     <string name="stopRecordButtonText">Stop Recording</string>
     <string name="recordButtonText">Press this button to record</string>
     <string name="createAGroup">Create A Group</string>
@@ -15,8 +15,9 @@
     <string name="login">Log In</string>
     <string name="signout">Sign Out</string>
     <string name="enterNameOfFamily">Enter Name of Family Group</string>
-    <string name="enterNameOfFamily">Enter Name of Family Group</string>
     <string name="back">Back</string>
+    <string name="generateFamilyCode">Share My Family</string>
+
 
 
 
