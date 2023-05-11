@@ -66,8 +66,8 @@ public class Database extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("users/hi");
 
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
 
 
         downloadFiles();
@@ -101,11 +101,12 @@ public class Database extends AppCompatActivity {
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                clearArrayLists();
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     String childKey = childSnapshot.getKey();
                     Object childValue = childSnapshot.getValue();
                     // Do something with childKey and childValue
-                    clearArrayLists();
+
 
                     keyValues.add(childKey);
                     objectValues.add(childValue.toString());
@@ -120,17 +121,18 @@ public class Database extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Handle error
-                Log.d(LOG_TAG, "ondata change method was cancelled");
+                Log.d(LOG_TAG, "on data change method was cancelled");
             }
         });
 
     }
 
     public void playButton(View v){
-        Uri dfile = Uri.fromFile(new File(downloadFileName.get(arraycounter).toString()));
+        Uri dfile = Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)+"/download.mp4"));
         player = new MediaPlayer();
-        StorageReference audioRef = storageRef.child("audios/song.mp4");
-
+        StorageReference audioRef = storageRef.child("audios/" + objectValues.get(arraycounter) + ".mp4");
+        Log.d(LOG_TAG,audioRef.toString());
+        Log.d(LOG_TAG,dfile.toString());
         audioRef.getFile(dfile).addOnSuccessListener(taskSnapshot -> Log.d(LOG_TAG,"download successful")).addOnFailureListener(exception -> Log.d(LOG_TAG,"download failed"));
         try {
             player.setDataSource(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)+"/download.mp4");
