@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
             player.release();
             player = null;
         });
+        ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
     }
     private void startRecording(){
         playButton.setEnabled(false);
@@ -93,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
             player = null;
         }
         outputFile = new File(rootPath,"test.mp4");
-        ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
         isRecording = true;
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
