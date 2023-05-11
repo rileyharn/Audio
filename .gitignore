@@ -8,6 +8,6 @@
 .externalNativeBuild
 .cxx
 local.properties
-build.gradle
-gradle.properties
-gradle-wrapper.properties
+/build.gradle
+/gradle.properties
+/gradle-wrapper.properties
