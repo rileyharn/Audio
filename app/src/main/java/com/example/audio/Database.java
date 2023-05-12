@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -24,12 +25,15 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class Database extends AppCompatActivity {
     ArrayList keyValues = new ArrayList<String>(10);
     ArrayList objectValues = new ArrayList<String>(10);
+    ArrayList downloadFileName = new ArrayList<String>();
+    ArrayList uriFiles = new ArrayList<Uri>();
     private int arraycounter = 0;
 
     private static final String LOG_TAG = "AudioRecording";
@@ -40,7 +44,7 @@ public class Database extends AppCompatActivity {
 
     private String emailPath;
     private File outputFile;
-    private Uri file;
+    private Uri uriFile;
     private MediaPlayer player = null;
     //
     private DatabaseReference mDatabase;
@@ -55,12 +59,16 @@ public class Database extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.database_test);
+        //emailpath would get the last used email/pull that information from a different activity
+        emailPath = "hearitagegroup@gmail.com";
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("users/hi");
 
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
+
 
         downloadFiles();
 
@@ -93,16 +101,18 @@ public class Database extends AppCompatActivity {
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                clearArrayLists();
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     String childKey = childSnapshot.getKey();
                     Object childValue = childSnapshot.getValue();
                     // Do something with childKey and childValue
-                    keyValues.clear();
-                    objectValues.clear();
+
+
                     keyValues.add(childKey);
                     objectValues.add(childValue.toString());
+                    downloadFileName.add(emailPath + "/" + childKey);
 
-                    storageRef.child("audios/song.mp4").getFile(file).addOnSuccessListener(taskSnapshot -> Log.d(LOG_TAG,"download successful")).addOnFailureListener(exception -> Log.d(LOG_TAG,"download failed"));
+                    //key value is the name of the file,
 
 
                 }
@@ -111,10 +121,26 @@ public class Database extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Handle error
-                Log.d(LOG_TAG, "ondata change method was cancelled");
+                Log.d(LOG_TAG, "on data change method was cancelled");
             }
         });
 
+    }
+
+    public void playButton(View v){
+        Uri dfile = Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)+"/download.mp4"));
+        player = new MediaPlayer();
+        StorageReference audioRef = storageRef.child("audios/" + objectValues.get(arraycounter) + ".mp4");
+        Log.d(LOG_TAG,audioRef.toString());
+        Log.d(LOG_TAG,dfile.toString());
+        audioRef.getFile(dfile).addOnSuccessListener(taskSnapshot -> Log.d(LOG_TAG,"download successful")).addOnFailureListener(exception -> Log.d(LOG_TAG,"download failed"));
+        try {
+            player.setDataSource(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)+"/download.mp4");
+            player.prepare();
+            player.start();
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "prepare() failed");
+        }
     }
 
     public void leftButton(View v){
@@ -126,6 +152,7 @@ public class Database extends AppCompatActivity {
 
         TextView text = (TextView) findViewById(R.id.downloadedFileNameTextView);
         text.setText(objectValues.get(arraycounter).toString());
+
     }
     public void rightButton(View v){
         if (objectValues.size()-1 > arraycounter) {
@@ -143,7 +170,11 @@ public class Database extends AppCompatActivity {
         startActivity(intent);
     }
 
-
-
+    private void clearArrayLists(){
+        keyValues.clear();
+        objectValues.clear();
+        downloadFileName.clear();
+        uriFiles.clear();
+    }
 
 }
