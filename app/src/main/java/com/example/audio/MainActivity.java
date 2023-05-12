@@ -2,6 +2,7 @@ package com.example.audio;
 
 import static android.text.InputType.*;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -20,6 +21,8 @@ import android.Manifest;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     Button recordButton = null;
     Button playButton = null;
     Button stopButton = null;
+    Button uploadButton = null;
 
     private String m_Text = "";
 
@@ -68,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         recordButton = findViewById(R.id.recordButton);
         playButton = findViewById(R.id.startPlayback);
         stopButton = findViewById(R.id.stopPlayback);
+        uploadButton = findViewById(R.id.uploadButton);
 
         //getting current user for filesystem
         //TODO: implement transition of username through activities
@@ -108,6 +113,9 @@ public class MainActivity extends AppCompatActivity {
             player.release();
             player = null;
         });
+        uploadButton.setOnClickListener(view -> {
+            setUploadTask(view);
+        });
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
     }
     private void startRecording(){
@@ -121,48 +129,42 @@ public class MainActivity extends AppCompatActivity {
         builder.setView(input);
 
         // Set up the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                m_Text = input.getText().toString();
-                InputFilter[] filterArray = new InputFilter[1];
-                filterArray[0] = new InputFilter.LengthFilter(20);
-                input.setFilters(filterArray);
-                Toast toast = new Toast(getApplicationContext());
-                toast.setDuration(Toast.LENGTH_LONG);
-                toast.setText("Recording Started");
-                toast.show();
-                playButton.setEnabled(false);
-                stopButton.setEnabled(false);
-                if(player!=null){
-                    player.release();
-                    player = null;
-                }
-                outputFile = new File(rootPath,m_Text.replaceAll(" ","")+".mp4");
-                isRecording = true;
-                recorder = new MediaRecorder();
-                recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-                recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-                recorder.setOutputFile(outputFile.getAbsolutePath());
-                recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-                try {
-                    recorder.prepare();
-                } catch (IOException e) {
-                    Log.e(LOG_TAG, "prepare() failed");
-                }
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            m_Text = input.getText().toString();
+            InputFilter[] filterArray = new InputFilter[1];
+            filterArray[0] = new InputFilter.LengthFilter(20);
+            input.setFilters(filterArray);
+            Toast toast = new Toast(getApplicationContext());
+            toast.setDuration(Toast.LENGTH_LONG);
+            toast.setText("Recording Started");
+            toast.show();
+            playButton.setEnabled(false);
+            stopButton.setEnabled(false);
+            if(player!=null){
+                player.release();
+                player = null;
+            }
+            outputFile = new File(rootPath,m_Text.replaceAll(" ","")+".mp4");
+            isRecording = true;
+            recorder = new MediaRecorder();
+            recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+            recorder.setOutputFile(outputFile.getAbsolutePath());
+            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+            try {
+                recorder.prepare();
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "prepare() failed");
+            }
 
-                recorder.start();
-            }
+            recorder.start();
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                Toast toast = new Toast(getApplicationContext());
-                toast.setDuration(Toast.LENGTH_LONG);
-                toast.setText("Recording Canceled");
-                toast.show();
-            }
+        builder.setNegativeButton("Cancel", (dialog, which) -> {
+            dialog.cancel();
+            Toast toast = new Toast(getApplicationContext());
+            toast.setDuration(Toast.LENGTH_LONG);
+            toast.setText("Recording Canceled");
+            toast.show();
         });
 
         builder.show();
@@ -177,12 +179,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setUploadTask(View v){
-        StorageReference audioRef = storageRef.child("audios/"+outputFile.getAbsolutePath().toString());
-        uploadTask = audioRef.putFile(Uri.fromFile(new File(outputFile.getAbsolutePath())));
+        Uri file = Uri.fromFile(new File(outputFile.getAbsolutePath()));
+        StorageReference riversRef = storageRef.child("images/"+file.getLastPathSegment());
+        uploadTask = riversRef.putFile(file);
+
+// Register observers to listen for when the download is done or if it fails
         uploadTask.addOnFailureListener(exception -> {
-            Log.d(LOG_TAG, "upload task failed");
-            Log.d(LOG_TAG, Log.getStackTraceString(null));
-        }).addOnSuccessListener(taskSnapshot -> Log.d(LOG_TAG, "upload task successful"));
+            // Handle unsuccessful uploads
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                // ...
+            }
+        });
     }
     }
 
