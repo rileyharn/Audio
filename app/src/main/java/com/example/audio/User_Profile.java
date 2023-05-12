@@ -1,60 +1,100 @@
 package com.example.audio;
 
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
-import com.google.android.gms.auth.api.identity.BeginSignInRequest;
-import com.google.android.gms.auth.api.identity.SignInClient;
-import com.google.android.gms.auth.api.identity.SignInCredential;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 
 public class User_Profile extends AppCompatActivity {
 
 
-
     private static final String LOG_TAG = "AudioRecording";
-    private Button button;
+    //Buttons on the userprofile.xml page
+    private Button familyGroupsXML;
+    private Button joinFamilyGroupXML;
+    private Button recordNowXML;
+    private Button createFamilyGroupXML;
+    private Button signOutXML;
+    private Button searchMyRecordingsXML;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.userprofile);
 
-        button = findViewById(R.id.recordNowButton);
+        searchMyRecordingsXML = findViewById(R.id.searchMyRecordingsButton);
+        familyGroupsXML = findViewById(R.id.familyGroupsButton);
+        joinFamilyGroupXML = findViewById(R.id.joinAFamilyGroupButton);
+        recordNowXML = findViewById(R.id.recordNowButton);
+        createFamilyGroupXML = findViewById(R.id.createAFamilyGroupButton);
+        signOutXML = findViewById(R.id.signOutButton);
+        familyGroupsXML.setOnClickListener(new View.OnClickListener() {
 
-        button.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick (View v) {
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), viewFamilyGroups.class);
+                startActivity(intent);
+
+            }
+        });
+        joinFamilyGroupXML.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), joinFamilyGroup.class);
+                startActivity(intent);
+
+            }
+        });
+
+        recordNowXML.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
                 startActivity(intent);
 
             }
         });
 
+        createFamilyGroupXML.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), Create_A_Family.class);
+                startActivity(intent);
+
+            }
+        });
+        signOutXML.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), LoginScreen.class);
+                startActivity(intent);
+
+            }
+        });
+        searchMyRecordingsXML.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), searchMyRecordings.class);
+                startActivity(intent);
+
+            }
+        });
 
 
-        }
-        public void databaseActivity(View v){
-            Intent intent = new Intent(getBaseContext(), Database.class);
-            startActivity(intent);
-
-        }
     }
+
+    public void switchToDataBaseActivity(View v) {
+        Intent intent = new Intent(getBaseContext(), Database.class);
+        startActivity(intent);
+
+    }
+}
 
 
 

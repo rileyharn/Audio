@@ -1,21 +1,25 @@
 package com.example.audio;
 
-import androidx.annotation.NonNull;
+import static android.text.InputType.*;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.Manifest;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -48,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     Button recordButton = null;
     Button playButton = null;
     Button stopButton = null;
+
+    private String m_Text = "";
 
     //Code to run when screen is opened
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
             player = new MediaPlayer();
             try {
                 player.setDataSource(outputFile.getAbsolutePath());
-
                 player.prepare();
                 player.start();
             } catch (IOException e) {
@@ -103,32 +108,64 @@ public class MainActivity extends AppCompatActivity {
             player.release();
             player = null;
         });
+        ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
     }
     private void startRecording(){
-        playButton.setEnabled(false);
-        stopButton.setEnabled(false);
-        if(player!=null){
-            player.release();
-            player = null;
-        }
-        outputFile = new File(rootPath,"test.mp4");
-        Log.d(LOG_TAG, rootPath + "/test.mp4");
-        Log.d(LOG_TAG, outputFile.getAbsolutePath());
-        ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
-        isRecording = true;
-        recorder = new MediaRecorder();
-        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        recorder.setOutputFile(outputFile.getAbsolutePath());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Name this recording");
 
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-        try {
-            recorder.prepare();
-        } catch (IOException e) {
-            Log.e(LOG_TAG, "prepare() failed");
-        }
+        // Set up the input
+        final EditText input = new EditText(this);
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_NORMAL);
+        builder.setView(input);
 
-        recorder.start();
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                m_Text = input.getText().toString();
+                InputFilter[] filterArray = new InputFilter[1];
+                filterArray[0] = new InputFilter.LengthFilter(20);
+                input.setFilters(filterArray);
+                Toast toast = new Toast(getApplicationContext());
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.setText("Recording Started");
+                toast.show();
+                playButton.setEnabled(false);
+                stopButton.setEnabled(false);
+                if(player!=null){
+                    player.release();
+                    player = null;
+                }
+                outputFile = new File(rootPath,m_Text.replaceAll(" ","")+".mp4");
+                isRecording = true;
+                recorder = new MediaRecorder();
+                recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+                recorder.setOutputFile(outputFile.getAbsolutePath());
+                recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+                try {
+                    recorder.prepare();
+                } catch (IOException e) {
+                    Log.e(LOG_TAG, "prepare() failed");
+                }
+
+                recorder.start();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                Toast toast = new Toast(getApplicationContext());
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.setText("Recording Canceled");
+                toast.show();
+            }
+        });
+
+        builder.show();
     }
     private void stopRecording() {
         playButton.setEnabled(true);
@@ -140,26 +177,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setUploadTask(View v){
-        //EditText fileName = (EditText) findViewById(R.id.uploadFileName);
-
-        StorageReference audioRef = storageRef.child("audios/"+ "house" + ".mp4");
-        File temp = new File(rootPath, "test.mp4");
-        uploadTask = audioRef.putFile(Uri.fromFile(temp));
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Log.d(LOG_TAG, "upload task failed");
-                Log.d(LOG_TAG, Log.getStackTraceString(null));
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Log.d(LOG_TAG, "upload task successful");
-            }
-        });
+        StorageReference audioRef = storageRef.child("audios/"+outputFile.getAbsolutePath().toString());
+        uploadTask = audioRef.putFile(Uri.fromFile(new File(outputFile.getAbsolutePath())));
+        uploadTask.addOnFailureListener(exception -> {
+            Log.d(LOG_TAG, "upload task failed");
+            Log.d(LOG_TAG, Log.getStackTraceString(null));
+        }).addOnSuccessListener(taskSnapshot -> Log.d(LOG_TAG, "upload task successful"));
     }
-
-
-
     }
 
