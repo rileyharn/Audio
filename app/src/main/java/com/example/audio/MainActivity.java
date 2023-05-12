@@ -184,8 +184,5 @@ public class MainActivity extends AppCompatActivity {
             Log.d(LOG_TAG, Log.getStackTraceString(null));
         }).addOnSuccessListener(taskSnapshot -> Log.d(LOG_TAG, "upload task successful"));
     }
-
-
-
     }
 
