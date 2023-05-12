@@ -28,10 +28,10 @@
             android:layout_height="210dp"
             android:layout_gravity="center"
             android:translationY="20dp"
-            app:srcCompat="@drawable/untitled_design_1_" />
+            app:srcCompat="@drawable/app_logo" />
 
         <Button
-            android:id="@+id/joinAFamilyGroupButton"
+            android:id="@+id/familyGroupsButton"
             android:layout_width="match_parent"
             android:layout_height="88dp"
             android:layout_gravity="center"

@@ -1,24 +1,34 @@
 <resources>
+    //app name
     <string name="app_name">Hearitage</string>
+    //recoding
     <string name="stopRecordButtonText">Stop Recording</string>
     <string name="recordButtonText">Press this button to record</string>
+    //groups/families
     <string name="createAGroup">Create A Group</string>
     <string name="joinAGroup">Join A Group</string>
     <string name="cickHereToGoToRecordingPage">Record Now</string>
     <string name="JoinAFamily">Join A Family Group</string>
     <string name="CreateAFamily">Create A Family Group</string>
-    <string name="userName">Username</string>
+    <string name="enterNameOfFamily">Enter Name of Family Group</string>
+    <string name="generateFamilyCode">Share My Family</string>
+    <string name="familyGroups">Family Groups</string>
+    <string name="searchUserFiles">Search My Recordings</string>
+    //enter info
     <string name="email">Email</string>
+    <string name="userName">Username</string>
+    //button
     <string name="startButtonText">Start</string>
     <string name="uploadButtonText">Upload</string>
     <string name="stopButtonText">Stop</string>
+    <string name="back">Back</string>
+    //login/signout
     <string name="login">Log In</string>
     <string name="signout">Sign Out</string>
-    <string name="enterNameOfFamily">Enter Name of Family Group</string>
-    <string name="back">Back</string>
-    <string name="generateFamilyCode">Share My Family</string>
+    //Testers
     <string name="large_text">Testy Large Text</string>
     <string name="action_settings">Testy Action Settings</string>
+    <string name="underConstruction">This page is under construction.</string>
 
 
 
