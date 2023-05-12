@@ -1,5 +1,6 @@
 package com.example.audio;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -11,7 +12,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.Manifest;
+import android.widget.EditText;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -86,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
             player = new MediaPlayer();
             try {
                 player.setDataSource(outputFile.getAbsolutePath());
+
                 player.prepare();
                 player.start();
             } catch (IOException e) {
@@ -107,12 +112,15 @@ public class MainActivity extends AppCompatActivity {
             player = null;
         }
         outputFile = new File(rootPath,"test.mp4");
+        Log.d(LOG_TAG, rootPath + "/test.mp4");
+        Log.d(LOG_TAG, outputFile.getAbsolutePath());
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
         isRecording = true;
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         recorder.setOutputFile(outputFile.getAbsolutePath());
+
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         try {
             recorder.prepare();
@@ -132,12 +140,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setUploadTask(View v){
-        StorageReference audioRef = storageRef.child("audios/"+outputFile.getAbsolutePath().toString());
-        uploadTask = audioRef.putFile(Uri.fromFile(new File(outputFile.getAbsolutePath())));
-        uploadTask.addOnFailureListener(exception -> {
-            Log.d(LOG_TAG, "upload task failed");
-            Log.d(LOG_TAG, Log.getStackTraceString(null));
-        }).addOnSuccessListener(taskSnapshot -> Log.d(LOG_TAG, "upload task successful"));
+        //EditText fileName = (EditText) findViewById(R.id.uploadFileName);
+
+        StorageReference audioRef = storageRef.child("audios/"+ "house" + ".mp4");
+        File temp = new File(rootPath, "test.mp4");
+        uploadTask = audioRef.putFile(Uri.fromFile(temp));
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.d(LOG_TAG, "upload task failed");
+                Log.d(LOG_TAG, Log.getStackTraceString(null));
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.d(LOG_TAG, "upload task successful");
+            }
+        });
     }
 
 
