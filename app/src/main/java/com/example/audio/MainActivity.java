@@ -1,14 +1,22 @@
 package com.example.audio;
 
+import static android.text.InputType.*;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.util.Log;
 import android.widget.Button;
 import android.Manifest;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     Button recordButton = null;
     Button playButton = null;
     Button stopButton = null;
+
+    private String m_Text = "";
 
     //Code to run when screen is opened
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,26 +97,61 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
     }
     private void startRecording(){
-        playButton.setEnabled(false);
-        stopButton.setEnabled(false);
-        if(player!=null){
-            player.release();
-            player = null;
-        }
-        outputFile = new File(rootPath,"test.mp4");
-        isRecording = true;
-        recorder = new MediaRecorder();
-        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        recorder.setOutputFile(outputFile.getAbsolutePath());
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-        try {
-            recorder.prepare();
-        } catch (IOException e) {
-            Log.e(LOG_TAG, "prepare() failed");
-        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Name this recording");
 
-        recorder.start();
+        // Set up the input
+        final EditText input = new EditText(this);
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_NORMAL);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                m_Text = input.getText().toString();
+                InputFilter[] filterArray = new InputFilter[1];
+                filterArray[0] = new InputFilter.LengthFilter(20);
+                input.setFilters(filterArray);
+                Toast toast = new Toast(getApplicationContext());
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.setText("Recording Started");
+                toast.show();
+                playButton.setEnabled(false);
+                stopButton.setEnabled(false);
+                if(player!=null){
+                    player.release();
+                    player = null;
+                }
+                outputFile = new File(rootPath,m_Text.replaceAll(" ","")+".mp4");
+                isRecording = true;
+                recorder = new MediaRecorder();
+                recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+                recorder.setOutputFile(outputFile.getAbsolutePath());
+                recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+                try {
+                    recorder.prepare();
+                } catch (IOException e) {
+                    Log.e(LOG_TAG, "prepare() failed");
+                }
+
+                recorder.start();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                Toast toast = new Toast(getApplicationContext());
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.setText("Recording Canceled");
+                toast.show();
+            }
+        });
+
+        builder.show();
     }
     private void stopRecording() {
         playButton.setEnabled(true);
