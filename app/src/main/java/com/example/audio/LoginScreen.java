@@ -90,26 +90,18 @@ public class LoginScreen extends AppCompatActivity {
             m_Text = input.getText().toString();
             if(m_Text.length()<=10) {
                 ((MyApplication) this.getApplication()).setUserName(m_Text.replaceAll("[\\\\\\\\/:*?\\\"<>|]","").toUpperCase());
-                Toast toast = new Toast(getApplicationContext());
-                toast.setDuration(Toast.LENGTH_LONG);
-                toast.setText("Sign-In Successful");
-                toast.show();
+
+                Toast.makeText(getApplicationContext(), "Sign-In Successful", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getBaseContext(), User_Profile.class);
                 startActivity(intent);
             }
             else{
-                Toast toast = new Toast(getApplicationContext());
-                toast.setDuration(Toast.LENGTH_LONG);
-                toast.setText("Username too long");
-                toast.show();
+                Toast.makeText(getApplicationContext(), "Username too long", Toast.LENGTH_LONG).show();
             }
         });
         builder.setNegativeButton("Cancel", (dialog, which) -> {
             dialog.cancel();
-            Toast toast = new Toast(getApplicationContext());
-            toast.setDuration(Toast.LENGTH_LONG);
-            toast.setText("Sign-In Canceled");
-            toast.show();
+            Toast.makeText(getApplicationContext(), "Sign-In Canceled", Toast.LENGTH_LONG).show();
         });
 
         builder.show();

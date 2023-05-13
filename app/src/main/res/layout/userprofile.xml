@@ -31,7 +31,7 @@
             app:srcCompat="@drawable/app_logo" />
 
         <Button
-            android:id="@+id/logInButton"
+            android:id="@+id/familyGroupsButton"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_gravity="center"

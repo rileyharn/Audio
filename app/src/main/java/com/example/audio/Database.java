@@ -42,7 +42,7 @@ public class Database extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     GoogleSignInAccount account;
 
-    private String emailPath;
+    private String username;
     private File outputFile;
     private Uri uriFile;
     private MediaPlayer player = null;
@@ -60,7 +60,7 @@ public class Database extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.database_test);
         //emailpath would get the last used email/pull that information from a different activity
-        emailPath = "testUser";
+        username = "testUser";
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         database = FirebaseDatabase.getInstance();
@@ -79,10 +79,9 @@ public class Database extends AppCompatActivity {
         Log.d(LOG_TAG, "entering debugClick mehtod");
         EditText edit =  (EditText) findViewById(R.id.DebugTextBox);
         EditText fileName = (EditText) findViewById(R.id.fileName);
-        Toast.makeText(getApplicationContext(), edit.getText(), Toast.LENGTH_LONG).show();// Write a message to the database
-
-
-        myRef.child(fileName.getText().toString()).setValue("audios/" +emailPath +"/" + fileName.getText().toString());
+        Toast.makeText(getApplicationContext(), edit.getText(), Toast.LENGTH_LONG).show();
+        // Write a message to the database
+        myRef.child(fileName.getText().toString()).setValue("users/" +username +"/" + fileName.getText().toString());
 
         Log.d(LOG_TAG, "exiting debugClick mehtod");
         downloadFiles();
@@ -110,7 +109,7 @@ public class Database extends AppCompatActivity {
 
                     keyValues.add(childKey);
                     objectValues.add(childValue.toString());
-                    downloadFileName.add(emailPath + "/" + childKey);
+                    downloadFileName.add(username + "/" + childKey);
 
                     //key value is the name of the file,
 
