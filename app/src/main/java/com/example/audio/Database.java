@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Random;
 
 public class Database extends AppCompatActivity {
     ArrayList keyValues = new ArrayList<String>(10);
@@ -35,6 +37,8 @@ public class Database extends AppCompatActivity {
     ArrayList downloadFileName = new ArrayList<String>();
     ArrayList uriFiles = new ArrayList<Uri>();
     private int arraycounter = 0;
+
+    Button playRand = null;
 
     private static final String LOG_TAG = "AudioRecording";
     //TO-DO: import information from login screen to sort database shenanigans
@@ -54,12 +58,17 @@ public class Database extends AppCompatActivity {
     DatabaseReference myRef;
     FirebaseStorage storage;
     StorageReference storageRef;
+    File playDir;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.database_test);
         //emailpath would get the last used email/pull that information from a different activity
+        playRand = findViewById(R.id.playRand);
+        playRand.setOnClickListener(view -> {
+            playRand(view);
+        });
         emailPath = "testUser";
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -88,7 +97,21 @@ public class Database extends AppCompatActivity {
         downloadFiles();
     }
 
+    public void playRand(View v){
+        playDir = ((MyApplication) this.getApplication()).getCurDir();
+        File[] files = playDir.listFiles();
+        Random rand = new Random();
 
+        File playFile = files[rand.nextInt(files.length)];
+        player = new MediaPlayer();
+        try {
+            player.setDataSource(playFile.getAbsolutePath());
+            player.prepare();
+            player.start();
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "prepare() failed");
+        }
+    }
 
     public void uploadFiles(){
 
@@ -167,6 +190,7 @@ public class Database extends AppCompatActivity {
     }
 
     public void backButton(View v){
+        player.release();
         Intent intent = new Intent(getBaseContext(), User_Profile.class);
         startActivity(intent);
     }

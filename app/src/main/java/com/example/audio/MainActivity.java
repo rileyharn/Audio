@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
         if(!rootPath.exists()) {
             rootPath.mkdirs();
         }
-        Log.d(LOG_TAG,rootPath.toString());
         ((MyApplication) this.getApplication()).setCurDir(rootPath);
 
         //disable buttons that cannot be used before recording

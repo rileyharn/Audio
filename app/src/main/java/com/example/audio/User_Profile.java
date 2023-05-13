@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.io.File;
+
 public class User_Profile extends AppCompatActivity {
 
 
@@ -34,13 +36,15 @@ public class User_Profile extends AppCompatActivity {
         recordNowXML = findViewById(R.id.recordNowButton);
         createFamilyGroupXML = findViewById(R.id.createAFamilyGroupButton);
         signOutXML = findViewById(R.id.signOutButton);
+
+        ((MyApplication) this.getApplication()).setCurDir(new File(getExternalFilesDir(null), ((MyApplication) this.getApplication()).getUserName()));
+
         familyGroupsXML.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), viewFamilyGroups.class);
                 startActivity(intent);
-
             }
         });
         joinFamilyGroupXML.setOnClickListener(new View.OnClickListener() {
