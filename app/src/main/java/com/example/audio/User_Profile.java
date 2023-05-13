@@ -40,7 +40,6 @@ public class User_Profile extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), viewFamilyGroups.class);
                 startActivity(intent);
-
             }
         });
         joinFamilyGroupXML.setOnClickListener(new View.OnClickListener() {

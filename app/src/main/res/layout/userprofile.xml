@@ -31,7 +31,7 @@
             app:srcCompat="@drawable/app_logo" />
 
         <Button
-            android:id="@+id/logInButton"
+            android:id="@+id/familyGroupsButton"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_gravity="center"
@@ -127,7 +127,6 @@
             android:layout_gravity="center"
             android:backgroundTint="@color/tan"
             android:fontFamily="sans-serif-black"
-            android:onClick="setUploadTask"
             android:text="@string/searchUserFiles"
             android:textColor="@color/black"
             android:textSize="20dp"
