@@ -102,11 +102,10 @@
             android:layout_weight="0.125">
 
             <Button
-                android:id="@+id/uploadButton2"
+                android:id="@+id/backButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="?attr/colorPrimary"
-                android:onClick="setUploadTask"
                 android:text="@string/back"
                 app:backgroundTint="?attr/colorPrimary"
                 app:cornerRadius="1000000dp"
