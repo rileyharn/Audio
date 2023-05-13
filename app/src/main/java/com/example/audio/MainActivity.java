@@ -64,10 +64,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //firebase setup
-        storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
-
         //setting buttons from view
         recordButton = findViewById(R.id.recordButton);
         playButton = findViewById(R.id.startPlayback);
@@ -113,9 +109,7 @@ public class MainActivity extends AppCompatActivity {
             player.release();
             player = null;
         });
-        uploadButton.setOnClickListener(view -> {
-            setUploadTask(view);
-        });
+        uploadButton.setOnClickListener(this::setUploadTask);
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
     }
     private void startRecording(){
