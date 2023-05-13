@@ -144,6 +144,7 @@ public class Database extends AppCompatActivity {
     }
 
     public void leftButton(View v){
+
         if (arraycounter > 0) {
             arraycounter--;
         } else {

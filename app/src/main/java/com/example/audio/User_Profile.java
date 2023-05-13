@@ -80,7 +80,7 @@ public class User_Profile extends AppCompatActivity {
         searchMyRecordingsXML.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), searchMyRecordings.class);
+                Intent intent = new Intent(getBaseContext(), Database.class);
                 startActivity(intent);
 
             }

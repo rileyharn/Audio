@@ -33,18 +33,20 @@ public class Create_A_Family extends AppCompatActivity {
     ArrayList keyValues = new ArrayList<String>(10);
     ArrayList objectValues = new ArrayList<String>(10);
     int arraycounter;
+    TextView yourGroupsCode = (TextView) findViewById(R.id.yourGroupsCode);
     String testuser = "testUser";
     private Button button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.createafamily);
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference(testuser + "/groups");
-
+        myRef = database.getReference("users/" + testuser + "/groups");
+        refreshDownloads();
 }
 
-    public void createFamily(){
+    public void createFamily(View v){
 
 
         EditText edit =  (EditText) findViewById(R.id.groupNameEditText);
@@ -53,9 +55,18 @@ public class Create_A_Family extends AppCompatActivity {
         while(!checkForExistingCode(code)){
             code = generateRandomCode();
         }
+        //adds a family with a unique code to database that can be accessed
+        DatabaseReference dref = database.getReference();
         database.getReference().child("families").child(code).setValue(edit.getText().toString());
-        groupCodeText.setText(code);
-        myRef.child(edit.getText().toString());
+        //adds family name and unique code to section of data base for each user
+        myRef.child(code).setValue(edit.getText().toString());
+
+
+        // appropriate text boxes being set
+        groupCodeText.setText("Your Group Code: " +code);
+
+
+
 
 
 
@@ -67,6 +78,7 @@ public class Create_A_Family extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     public void leftButton(View v){
+        if (!(objectValues.size() == 0)) {
         if (arraycounter > 0) {
             arraycounter--;
         } else {
@@ -74,18 +86,30 @@ public class Create_A_Family extends AppCompatActivity {
         }
 
         TextView text = (TextView) findViewById(R.id.selectedGroupName);
-        text.setText("Group " + (arraycounter + 1) + "/" + (objectValues.size() + 1) + "Group Selected" + objectValues.get(arraycounter));
+        text.setText("Group " + (arraycounter + 1) + "/" + (objectValues.size() + 1) + "        Group Selected: " + objectValues.get(arraycounter));
     }
+        else{
+            Toast.makeText(getApplicationContext(), "you have no families!", Toast.LENGTH_LONG).show();
+
+        }
+    }
+
     @SuppressLint("SetTextI18n")
     public void rightButton(View v){
-        if (objectValues.size()-1 > arraycounter) {
-            arraycounter++;
-        } else {
-            Toast.makeText(getApplicationContext(), "You are at the end of your family list!", Toast.LENGTH_LONG).show();
-        }
+        if (!(objectValues.size() == 0)) {
+            if (objectValues.size() - 1 > arraycounter) {
+                arraycounter++;
+            } else {
+                Toast.makeText(getApplicationContext(), "You are at the end of your family list!", Toast.LENGTH_LONG).show();
+            }
 
-        TextView text = (TextView) findViewById(R.id.selectedGroupName);
-        text.setText("Group " + (arraycounter + 1) + "/" + (objectValues.size() + 1) + "Group Selected" + objectValues.get(arraycounter) );
+            TextView text = (TextView) findViewById(R.id.selectedGroupName);
+            text.setText("Group " + (arraycounter + 1) + "/" + (objectValues.size()) + "        Group Selected: " + objectValues.get(arraycounter));
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "you have no families!", Toast.LENGTH_LONG).show();
+
+        }
     }
 
     private String generateRandomCode(){
@@ -107,6 +131,10 @@ public class Create_A_Family extends AppCompatActivity {
         }
         //if code is not found then return true
         return true;
+    }
+
+    public void refreshDownloadsView(View v){
+        refreshDownloads();
     }
     public void refreshDownloads(){
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -137,6 +165,9 @@ public class Create_A_Family extends AppCompatActivity {
                 Log.d(LOG_TAG, "on data change method was cancelled");
             }
         });
+        TextView text = (TextView) findViewById(R.id.selectedGroupName);
+        text.setText("Group " + (arraycounter + 1) + "/" + (objectValues.size()) + "        Group Selected: " + objectValues.get(arraycounter));
+        //yourGroupsCode.setText(keyValues.get(arraycounter));
     }
     //end of class
 }

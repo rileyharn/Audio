@@ -25,16 +25,27 @@
             android:inputType="textPersonName" />
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/createFamilyButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="createFamily"
             android:text="create family" />
 
         <TextView
             android:id="@+id/groupCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="Your Group Code:" />
+
+        <TextView
+            android:id="@+id/titleSeparator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#B19D9D"
+            android:text="Your Groups"
+            android:textAlignment="center"
+            android:textSize="34sp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,6 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="leftButton"
                 android:text="left" />
 
             <Button
@@ -53,6 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="rightButton"
                 android:text="right" />
         </LinearLayout>
 
@@ -60,7 +73,7 @@
             android:id="@+id/selectedGroupName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="Group" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -68,30 +81,17 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/yourGroupsCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="Code:" />
         </LinearLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="352dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textInputEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="?attr/colorOnPrimary"
-                android:hint="@string/email"
-                android:translationY="100dp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/Refresh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="refreshDownloadsView"
             android:text="Refresh" />
 
     </LinearLayout>
