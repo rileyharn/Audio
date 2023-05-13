@@ -60,11 +60,11 @@ public class Database extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.database_test);
         //emailpath would get the last used email/pull that information from a different activity
-        emailPath = "hearitagegroup@gmail.com";
+        emailPath = "testUser";
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("users/hi");
+        myRef = database.getReference("users/audio");
 
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
@@ -82,8 +82,8 @@ public class Database extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), edit.getText(), Toast.LENGTH_LONG).show();// Write a message to the database
 
 
-        myRef.child(fileName.getText().toString()).setValue(edit.getText().toString());
-        mDatabase.child("users").child("hi").child("/" + "audio").setValue("edit.getText()");
+        myRef.child(fileName.getText().toString()).setValue("audios/" +emailPath +"/" + fileName.getText().toString());
+
         Log.d(LOG_TAG, "exiting debugClick mehtod");
         downloadFiles();
     }
