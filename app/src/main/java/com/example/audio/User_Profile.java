@@ -29,61 +29,41 @@ public class User_Profile extends AppCompatActivity {
         setContentView(R.layout.userprofile);
 
         searchMyRecordingsXML = findViewById(R.id.searchMyRecordingsButton);
-        familyGroupsXML = findViewById(R.id.familyGroupsButton);
+        familyGroupsXML = findViewById(R.id.logInButton);
         joinFamilyGroupXML = findViewById(R.id.joinAFamilyGroupButton);
         recordNowXML = findViewById(R.id.recordNowButton);
         createFamilyGroupXML = findViewById(R.id.createAFamilyGroupButton);
         signOutXML = findViewById(R.id.signOutButton);
-        familyGroupsXML.setOnClickListener(new View.OnClickListener() {
+        familyGroupsXML.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), viewFamilyGroups.class);
+            startActivity(intent);
 
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), viewFamilyGroups.class);
-                startActivity(intent);
-
-            }
         });
-        joinFamilyGroupXML.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), joinFamilyGroup.class);
-                startActivity(intent);
+        joinFamilyGroupXML.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), joinFamilyGroup.class);
+            startActivity(intent);
 
-            }
         });
 
-        recordNowXML.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                startActivity(intent);
+        recordNowXML.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), MainActivity.class);
+            startActivity(intent);
 
-            }
         });
 
-        createFamilyGroupXML.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), Create_A_Family.class);
-                startActivity(intent);
+        createFamilyGroupXML.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), Create_A_Family.class);
+            startActivity(intent);
 
-            }
         });
-        signOutXML.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), LoginScreen.class);
-                startActivity(intent);
-
-            }
+        signOutXML.setOnClickListener(v -> {
+            resetUser();
+            Intent intent = new Intent(getBaseContext(), LoginScreen.class);
+            startActivity(intent);
         });
-        searchMyRecordingsXML.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), searchMyRecordings.class);
-                startActivity(intent);
-
-            }
+        searchMyRecordingsXML.setOnClickListener(v -> {
+            Intent intent = new Intent(getBaseContext(), searchMyRecordings.class);
+            startActivity(intent);
         });
 
 
@@ -93,6 +73,10 @@ public class User_Profile extends AppCompatActivity {
         Intent intent = new Intent(getBaseContext(), Database.class);
         startActivity(intent);
 
+    }
+
+    private void resetUser(){
+        ((MyApplication) this.getApplication()).setUserName("");
     }
 }
 

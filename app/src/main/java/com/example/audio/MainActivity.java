@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isRecording = false;
     private boolean hasRecorded = false;
-    private String username = "testUser";
+    private String username = null;
 
     //Setting up button variables
     Button recordButton = null;
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         uploadButton = findViewById(R.id.uploadButton);
 
         //getting current user for filesystem
-        //TODO: implement transition of username through activities
+        username = ((MyApplication) this.getApplication()).getUserName();
         rootPath = new File(getExternalFilesDir(null), username);
         if(!rootPath.exists()) {
             rootPath.mkdirs();
