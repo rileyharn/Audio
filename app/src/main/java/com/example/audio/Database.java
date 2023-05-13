@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Random;
 
 public class Database extends AppCompatActivity {
     ArrayList keyValues = new ArrayList<String>(10);
@@ -36,13 +38,15 @@ public class Database extends AppCompatActivity {
     ArrayList uriFiles = new ArrayList<Uri>();
     private int arraycounter = 0;
 
+    Button playRand = null;
+
     private static final String LOG_TAG = "AudioRecording";
     //TO-DO: import information from login screen to sort database shenanigans
     private FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
     GoogleSignInAccount account;
 
-    private String username;
+    private String emailPath;
     private File outputFile;
     private Uri uriFile;
     private MediaPlayer player = null;
@@ -54,13 +58,18 @@ public class Database extends AppCompatActivity {
     DatabaseReference myRef;
     FirebaseStorage storage;
     StorageReference storageRef;
+    File playDir;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.database_test);
         //emailpath would get the last used email/pull that information from a different activity
-        username = "testUser";
+        playRand = findViewById(R.id.playRand);
+        playRand.setOnClickListener(view -> {
+            playRand(view);
+        });
+        emailPath = "testUser";
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         database = FirebaseDatabase.getInstance();
@@ -79,15 +88,30 @@ public class Database extends AppCompatActivity {
         Log.d(LOG_TAG, "entering debugClick mehtod");
         EditText edit =  (EditText) findViewById(R.id.DebugTextBox);
         EditText fileName = (EditText) findViewById(R.id.fileName);
-        Toast.makeText(getApplicationContext(), edit.getText(), Toast.LENGTH_LONG).show();
-        // Write a message to the database
-        myRef.child(fileName.getText().toString()).setValue("users/" +username +"/" + fileName.getText().toString());
+        Toast.makeText(getApplicationContext(), edit.getText(), Toast.LENGTH_LONG).show();// Write a message to the database
+
+
+        myRef.child(fileName.getText().toString()).setValue("audios/" +emailPath +"/" + fileName.getText().toString());
 
         Log.d(LOG_TAG, "exiting debugClick mehtod");
         downloadFiles();
     }
 
+    public void playRand(View v){
+        playDir = ((MyApplication) this.getApplication()).getCurDir();
+        File[] files = playDir.listFiles();
+        Random rand = new Random();
 
+        File playFile = files[rand.nextInt(files.length)];
+        player = new MediaPlayer();
+        try {
+            player.setDataSource(playFile.getAbsolutePath());
+            player.prepare();
+            player.start();
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "prepare() failed");
+        }
+    }
 
     public void uploadFiles(){
 
@@ -109,7 +133,7 @@ public class Database extends AppCompatActivity {
 
                     keyValues.add(childKey);
                     objectValues.add(childValue.toString());
-                    downloadFileName.add(username + "/" + childKey);
+                    downloadFileName.add(emailPath + "/" + childKey);
 
                     //key value is the name of the file,
 
@@ -166,6 +190,7 @@ public class Database extends AppCompatActivity {
     }
 
     public void backButton(View v){
+        player.release();
         Intent intent = new Intent(getBaseContext(), User_Profile.class);
         startActivity(intent);
     }

@@ -127,7 +127,6 @@
             android:layout_gravity="center"
             android:backgroundTint="@color/tan"
             android:fontFamily="sans-serif-black"
-            android:onClick="setUploadTask"
             android:text="@string/searchUserFiles"
             android:textColor="@color/black"
             android:textSize="20dp"

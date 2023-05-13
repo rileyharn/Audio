@@ -22,6 +22,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import java.io.File;
+
 public class User_Profile extends AppCompatActivity {
 
     private String username = ((MyApplication) this.getApplication()).getUserName();
@@ -48,13 +50,15 @@ public class User_Profile extends AppCompatActivity {
         recordNowXML = findViewById(R.id.recordNowButton);
         createFamilyGroupXML = findViewById(R.id.createAFamilyGroupButton);
         signOutXML = findViewById(R.id.signOutButton);
+
+        ((MyApplication) this.getApplication()).setCurDir(new File(getExternalFilesDir(null), ((MyApplication) this.getApplication()).getUserName()));
+
         familyGroupsXML.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), viewFamilyGroups.class);
                 startActivity(intent);
-
             }
         });
         joinFamilyGroupXML.setOnClickListener(new View.OnClickListener() {
