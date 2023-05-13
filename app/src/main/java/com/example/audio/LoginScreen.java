@@ -89,7 +89,7 @@ public class LoginScreen extends AppCompatActivity {
         builder.setPositiveButton("OK", (dialog, which) -> {
             m_Text = input.getText().toString();
             if(m_Text.length()<=10) {
-                ((MyApplication) this.getApplication()).setUserName(m_Text);
+                ((MyApplication) this.getApplication()).setUserName(m_Text.replaceAll("[\\\\\\\\/:*?\\\"<>|]","").toUpperCase());
                 Toast toast = new Toast(getApplicationContext());
                 toast.setDuration(Toast.LENGTH_LONG);
                 toast.setText("Sign-In Successful");

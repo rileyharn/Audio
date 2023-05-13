@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     Button playButton = null;
     Button stopButton = null;
     Button uploadButton = null;
+    Button backButton = null;
 
     private String m_Text = "";
 
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         playButton = findViewById(R.id.startPlayback);
         stopButton = findViewById(R.id.stopPlayback);
         uploadButton = findViewById(R.id.uploadButton);
+        backButton = findViewById(R.id.backButton);
 
         //getting current user for filesystem
         username = ((MyApplication) this.getApplication()).getUserName();
@@ -76,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
         if(!rootPath.exists()) {
             rootPath.mkdirs();
         }
+        Log.d(LOG_TAG,rootPath.toString());
+        ((MyApplication) this.getApplication()).setCurDir(rootPath);
 
         //disable buttons that cannot be used before recording
         playButton.setEnabled(false);
@@ -110,6 +115,11 @@ public class MainActivity extends AppCompatActivity {
             player = null;
         });
         uploadButton.setOnClickListener(this::setUploadTask);
+        backButton.setOnClickListener(view -> {
+            Intent intent = new Intent(getBaseContext(), User_Profile.class);
+            startActivity(intent);
+        });
+
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
     }
     private void startRecording(){
@@ -138,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                 player.release();
                 player = null;
             }
-            outputFile = new File(rootPath,m_Text.replaceAll(" ","")+".mp4");
+            outputFile = new File(rootPath,m_Text.replaceAll(" ","_").replaceAll("[\\\\\\\\/:*?\\\"<>|]","")+".mp4");
             isRecording = true;
             recorder = new MediaRecorder();
             recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
