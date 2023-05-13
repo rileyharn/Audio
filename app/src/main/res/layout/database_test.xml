@@ -39,19 +39,25 @@
         android:id="@+id/downloadedFileNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="27dp"
         android:layout_marginEnd="14dp"
+        android:layout_marginBottom="126dp"
         android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/fileName"
+        app:layout_constraintStart_toEndOf="@+id/leftButton"
         app:layout_constraintTop_toBottomOf="@+id/fileName" />
 
     <Button
         android:id="@+id/leftButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="9dp"
+        android:layout_marginTop="16dp"
         android:onClick="leftButton"
         android:text="Left"
+        app:layout_constraintBottom_toTopOf="@+id/databaseBackButton"
+        app:layout_constraintEnd_toStartOf="@+id/downloadedFileNameTextView"
         app:layout_constraintStart_toStartOf="@+id/fileName"
         app:layout_constraintTop_toBottomOf="@+id/fileName" />
 
@@ -67,7 +73,7 @@
         android:text="Right"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/fileName"
         app:layout_constraintTop_toBottomOf="@+id/fileName"
         app:layout_constraintVertical_bias="1.0" />
@@ -116,7 +122,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/fileNameInStorage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"

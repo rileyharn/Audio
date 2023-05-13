@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="1000dp"
+        android:layout_height="match_parent"
         android:background="?attr/colorOnBackground"
         android:orientation="vertical">
 
@@ -127,6 +127,7 @@
             android:layout_gravity="center"
             android:backgroundTint="@color/tan"
             android:fontFamily="sans-serif-black"
+            android:onClick="setUploadTask"
             android:text="@string/searchUserFiles"
             android:textColor="@color/black"
             android:textSize="20dp"
