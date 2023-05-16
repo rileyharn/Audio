@@ -35,7 +35,7 @@
             android:id="@+id/groupCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Your Group Code:" />
+            android:text="Your New Group Code:" />
 
         <TextView
             android:id="@+id/titleSeparator"

@@ -33,7 +33,7 @@ public class Create_A_Family extends AppCompatActivity {
     ArrayList keyValues = new ArrayList<String>(10);
     ArrayList objectValues = new ArrayList<String>(10);
     int arraycounter;
-    TextView yourGroupsCode = (TextView) findViewById(R.id.yourGroupsCode);
+    //TextView yourGroupsCode = (TextView) findViewById(R.id.yourGroupsCode);
     String testuser = "testUser";
     private Button button;
 
@@ -86,8 +86,11 @@ public class Create_A_Family extends AppCompatActivity {
         }
 
         TextView text = (TextView) findViewById(R.id.selectedGroupName);
-        text.setText("Group " + (arraycounter + 1) + "/" + (objectValues.size() + 1) + "        Group Selected: " + objectValues.get(arraycounter));
-    }
+        text.setText("Group " + (arraycounter + 1) + "/" + (objectValues.size()) + "        Group Selected: " + objectValues.get(arraycounter));
+            TextView famgroupcodes = (TextView) findViewById(R.id.yourGroupsCode);
+            famgroupcodes.setText(""+keyValues.get(arraycounter).toString());
+
+        }
         else{
             Toast.makeText(getApplicationContext(), "you have no families!", Toast.LENGTH_LONG).show();
 
@@ -105,6 +108,8 @@ public class Create_A_Family extends AppCompatActivity {
 
             TextView text = (TextView) findViewById(R.id.selectedGroupName);
             text.setText("Group " + (arraycounter + 1) + "/" + (objectValues.size()) + "        Group Selected: " + objectValues.get(arraycounter));
+            TextView famgroupcodes = (TextView) findViewById(R.id.yourGroupsCode);
+            famgroupcodes.setText("Selected Group Code: "+keyValues.get(arraycounter).toString());
         }
         else{
             Toast.makeText(getApplicationContext(), "you have no families!", Toast.LENGTH_LONG).show();
@@ -165,9 +170,7 @@ public class Create_A_Family extends AppCompatActivity {
                 Log.d(LOG_TAG, "on data change method was cancelled");
             }
         });
-        TextView text = (TextView) findViewById(R.id.selectedGroupName);
-        text.setText("Group " + (arraycounter + 1) + "/" + (objectValues.size()) + "        Group Selected: " + objectValues.get(arraycounter));
-        //yourGroupsCode.setText(keyValues.get(arraycounter));
+
     }
     //end of class
 }

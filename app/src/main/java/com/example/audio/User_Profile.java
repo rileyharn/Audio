@@ -13,10 +13,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -26,7 +28,7 @@ import java.io.File;
 
 public class User_Profile extends AppCompatActivity {
 
-    private String username = ((MyApplication) this.getApplication()).getUserName();
+    private String username = /*((MyApplication) this.getApplication()).getUserName()*/ "testUser";
     private static final String LOG_TAG = "AudioRecording";
     //Buttons on the userprofile.xml page
     private Button familyGroupsXML;
@@ -109,30 +111,35 @@ public class User_Profile extends AppCompatActivity {
 
    private void joinFamilyPopUp(){
        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-       builder.setTitle("Enter a 5-letter code");
+       builder.setTitle("Enter a 6-letter code");
 
        final EditText input = new EditText(this);
        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
        input.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_NORMAL);
        builder.setView(input);
-
+       final TextView text = new TextView(this);
+       text.setText("don't have a code? Get your code from someone in an existing group or create your own!");
        // Set up the buttons
        builder.setPositiveButton("OK", (dialog, which) -> {
            String m_Text = input.getText().toString();
            ArrayList keyValues = new ArrayList<String>();
            ArrayList objectValues = new ArrayList<String>();
-           if(m_Text.length() ==5) {
-              FirebaseDatabase.getInstance().getReference("families").addListenerForSingleValueEvent(new ValueEventListener() {
+           if(m_Text.length() ==6) {
+               FirebaseDatabase database;
+               DatabaseReference myRef2;
+               database = FirebaseDatabase.getInstance();
+               myRef2 = database.getReference("families");
+              myRef2.addListenerForSingleValueEvent(new ValueEventListener() {
                   @Override
                   public void onDataChange(DataSnapshot dataSnapshot) {
-                      keyValues.clear();
-                      objectValues.clear();
+
                       for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                           String childKey = childSnapshot.getKey();
                           Object childValue = childSnapshot.getValue();
                           // keyValues contain codes for family groups
                           keyValues.add(childKey);
-                            objectValues.add(childKey);
+                          Log.d(LOG_TAG, childKey);
+                          objectValues.add(childKey);
                       }
                   }
                   @Override
@@ -141,18 +148,20 @@ public class User_Profile extends AppCompatActivity {
                       Log.d(LOG_TAG, "on data change method was cancelled");
                   }
               });
-                int i = 0;
-                for (i = 0; i<keyValues.size();i++){
+
+              boolean found = false;
+                for (int i = 0; i<keyValues.size();i++){
                     if(keyValues.get(i).equals(m_Text)){
 
                         FirebaseDatabase.getInstance().getReference("users/"+username+"/groups/" + keyValues.get(i)).setValue(objectValues.get(i));
                         i = keyValues.size() + 1;
+                        found = true;
                         Toast.makeText(getApplicationContext(), "Family successfully joined", Toast.LENGTH_LONG).show();
                     }
 
 
                 }
-                if (!(keyValues.size() + 1 == i)){
+                if (!found){
                     Toast.makeText(getApplicationContext(), "Family doesn't exist", Toast.LENGTH_LONG).show();
                 }
 
