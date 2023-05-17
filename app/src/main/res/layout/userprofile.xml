@@ -31,24 +31,6 @@
             app:srcCompat="@drawable/app_logo" />
 
         <Button
-            android:id="@+id/familyGroupsButton"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/tan"
-            android:fontFamily="sans-serif-black"
-            android:text="@string/familyGroups"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            android:translationY="100dp"
-            app:icon="@drawable/foldericon"
-            app:iconGravity="start"
-            app:iconPadding="4dp"
-            app:iconSize="70dp"
-            app:iconTint="@android:color/transparent"
-            app:iconTintMode="src_over" />
-
-        <Button
             android:id="@+id/joinAFamilyGroupButton"
             android:layout_width="match_parent"
             android:layout_height="70dp"
@@ -103,24 +85,6 @@
             app:iconTintMode="src_over" />
 
         <Button
-            android:id="@+id/signOutButton"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/tan"
-            android:fontFamily="sans-serif-black"
-            android:text="@string/signout"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            android:translationY="100dp"
-            app:icon="@drawable/personpurple"
-            app:iconGravity="start"
-            app:iconPadding="4dp"
-            app:iconSize="100dp"
-            app:iconTint="@android:color/transparent"
-            app:iconTintMode="src_over" />
-
-        <Button
             android:id="@+id/searchMyRecordingsButton"
             android:layout_width="match_parent"
             android:layout_height="70dp"
@@ -135,6 +99,24 @@
             app:iconGravity="start"
             app:iconPadding="4dp"
             app:iconSize="70dp"
+            app:iconTint="@android:color/transparent"
+            app:iconTintMode="src_over" />
+
+        <Button
+            android:id="@+id/signOutButton"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/tan"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/signout"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:translationY="100dp"
+            app:icon="@drawable/personpurple"
+            app:iconGravity="start"
+            app:iconPadding="4dp"
+            app:iconSize="100dp"
             app:iconTint="@android:color/transparent"
             app:iconTintMode="src_over" />
 

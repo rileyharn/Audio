@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -41,12 +42,9 @@ public class Database extends AppCompatActivity {
     Button playRand = null;
 
     private static final String LOG_TAG = "AudioRecording";
-    //TO-DO: import information from login screen to sort database shenanigans
-    private FirebaseAuth mAuth;
-    GoogleSignInClient mGoogleSignInClient;
-    GoogleSignInAccount account;
 
-    private String emailPath;
+
+    private String username;
     private File outputFile;
     private Uri uriFile;
     private MediaPlayer player = null;
@@ -69,11 +67,11 @@ public class Database extends AppCompatActivity {
         playRand.setOnClickListener(view -> {
             playRand(view);
         });
-        emailPath = "testUser";
+        username = "testUser";
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("users/audio");
+        myRef = database.getReference("users/" + username + "/audios");
 
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
@@ -91,7 +89,7 @@ public class Database extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), edit.getText(), Toast.LENGTH_LONG).show();// Write a message to the database
 
 
-        myRef.child(fileName.getText().toString()).setValue("audios/" +emailPath +"/" + fileName.getText().toString());
+        myRef.child(fileName.getText().toString()).setValue("audios/" +username +"/" + fileName.getText().toString());
 
         Log.d(LOG_TAG, "exiting debugClick mehtod");
         downloadFiles();
@@ -133,7 +131,7 @@ public class Database extends AppCompatActivity {
 
                     keyValues.add(childKey);
                     objectValues.add(childValue.toString());
-                    downloadFileName.add(emailPath + "/" + childKey);
+
 
                     //key value is the name of the file,
 

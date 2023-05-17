@@ -31,7 +31,7 @@ public class User_Profile extends AppCompatActivity {
     private String username = /*((MyApplication) this.getApplication()).getUserName()*/ "testUser";
     private static final String LOG_TAG = "AudioRecording";
     //Buttons on the userprofile.xml page
-    private Button familyGroupsXML;
+
     private Button joinFamilyGroupXML;
     private Button recordNowXML;
     private Button createFamilyGroupXML;
@@ -47,7 +47,6 @@ public class User_Profile extends AppCompatActivity {
         setContentView(R.layout.userprofile);
 
         searchMyRecordingsXML = findViewById(R.id.searchMyRecordingsButton);
-        familyGroupsXML = findViewById(R.id.familyGroupsButton);
         joinFamilyGroupXML = findViewById(R.id.joinAFamilyGroupButton);
         recordNowXML = findViewById(R.id.recordNowButton);
         createFamilyGroupXML = findViewById(R.id.createAFamilyGroupButton);
@@ -55,14 +54,7 @@ public class User_Profile extends AppCompatActivity {
 
         ((MyApplication) this.getApplication()).setCurDir(new File(getExternalFilesDir(null), ((MyApplication) this.getApplication()).getUserName()));
 
-        familyGroupsXML.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), viewFamilyGroups.class);
-                startActivity(intent);
-            }
-        });
         joinFamilyGroupXML.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -100,7 +92,7 @@ public class User_Profile extends AppCompatActivity {
         searchMyRecordingsXML.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), Database.class);
+                Intent intent = new Intent(getBaseContext(), searchMyRecordings.class);
                 startActivity(intent);
 
             }
@@ -116,12 +108,16 @@ public class User_Profile extends AppCompatActivity {
        final EditText input = new EditText(this);
        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
        input.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_NORMAL);
+       input.setHint("don't have a code? Create your own!");
        builder.setView(input);
-       final TextView text = new TextView(this);
-       text.setText("don't have a code? Get your code from someone in an existing group or create your own!");
+//       final TextView text = new TextView(this);
+//       text.setText("don't have a code? Get your code from someone in an existing group or create your own!");
+//       builder.setView(text);
        // Set up the buttons
        builder.setPositiveButton("OK", (dialog, which) -> {
+           Log.d(LOG_TAG, input.getText().toString());
            String m_Text = input.getText().toString();
+           Log.d(LOG_TAG, m_Text);
            ArrayList keyValues = new ArrayList<String>();
            ArrayList objectValues = new ArrayList<String>();
            if(m_Text.length() ==6) {
@@ -138,7 +134,7 @@ public class User_Profile extends AppCompatActivity {
                           Object childValue = childSnapshot.getValue();
                           // keyValues contain codes for family groups
                           keyValues.add(childKey);
-                          Log.d(LOG_TAG, childKey);
+                         // Log.d(LOG_TAG, childKey);
                           objectValues.add(childKey);
                       }
                   }
@@ -151,7 +147,8 @@ public class User_Profile extends AppCompatActivity {
 
               boolean found = false;
                 for (int i = 0; i<keyValues.size();i++){
-                    if(keyValues.get(i).equals(m_Text)){
+                    Log.d(LOG_TAG, keyValues.get(i).toString() + "==" + m_Text);
+                    if(keyValues.get(i).toString().equals(m_Text)){
 
                         FirebaseDatabase.getInstance().getReference("users/"+username+"/groups/" + keyValues.get(i)).setValue(objectValues.get(i));
                         i = keyValues.size() + 1;

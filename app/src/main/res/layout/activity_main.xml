@@ -16,8 +16,25 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.125">
+            android:layout_height="50dp"
+            android:layout_weight="0.125"
+            android:background="#7E84B6">
+
+            <TextView
+                android:id="@+id/AudioPlaybackTitle"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:background="#696D98"
+                android:fontFamily="sans-serif-black"
+                android:text="Audio Playback"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toTopOf="@+id/stopPlayback"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
             <Button
                 android:id="@+id/startPlayback"
@@ -33,7 +50,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/stopPlayback"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.61" />
 
             <Button
                 android:id="@+id/stopPlayback"
@@ -49,8 +67,20 @@
                 app:layout_constraintEnd_toStartOf="@+id/startPlayback"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.61" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#8795BC"
+            android:fontFamily="sans-serif-black"
+            android:text="Recording"
+            android:textAlignment="center"
+            android:textSize="24sp" />
 
         <LinearLayout
             android:id="@+id/recordLayout"
@@ -99,7 +129,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.125">
+            android:layout_weight="0.125"
+            android:background="#7E83B5">
 
             <Button
                 android:id="@+id/backButton"
@@ -111,7 +142,7 @@
                 app:cornerRadius="1000000dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.128"
+                app:layout_constraintHorizontal_bias="0.154"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:rippleColor="?attr/colorPrimary" />
@@ -127,23 +158,10 @@
                 app:cornerRadius="1000000dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.191"
+                app:layout_constraintHorizontal_bias="0.852"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.46"
                 app:rippleColor="?attr/colorPrimary" />
-
-            <EditText
-                android:id="@+id/uploadFileName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Name of upload"
-                android:inputType="textPersonName"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/uploadButton"
-                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

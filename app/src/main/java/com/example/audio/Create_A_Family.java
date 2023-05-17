@@ -6,6 +6,7 @@ import static androidx.core.content.PackageManagerCompat.LOG_TAG;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -88,7 +89,7 @@ public class Create_A_Family extends AppCompatActivity {
         TextView text = (TextView) findViewById(R.id.selectedGroupName);
         text.setText("Group " + (arraycounter + 1) + "/" + (objectValues.size()) + "        Group Selected: " + objectValues.get(arraycounter));
             TextView famgroupcodes = (TextView) findViewById(R.id.yourGroupsCode);
-            famgroupcodes.setText(""+keyValues.get(arraycounter).toString());
+            famgroupcodes.setText("Selected Group Code: "+keyValues.get(arraycounter).toString());
 
         }
         else{
@@ -171,6 +172,11 @@ public class Create_A_Family extends AppCompatActivity {
             }
         });
 
+
+    }
+    public void backButton(View v){
+        Intent intent = new Intent(getBaseContext(), User_Profile.class);
+        startActivity(intent);
     }
     //end of class
 }

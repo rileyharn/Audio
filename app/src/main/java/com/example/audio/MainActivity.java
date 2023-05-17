@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -43,14 +45,17 @@ public class MainActivity extends AppCompatActivity {
     private MediaRecorder recorder = null;
     private MediaPlayer player = null;
     //Firebase Storage variables n stuff
+    private String tempName;
     FirebaseStorage storage;
     StorageReference storageRef;
+    FirebaseDatabase database;
+    DatabaseReference myRef;
     private UploadTask uploadTask;
     //Misc variables
 
     private boolean isRecording = false;
     private boolean hasRecorded = false;
-    private String username = null;
+    private String username = "testUser";
 
     //Setting up button variables
     Button recordButton = null;
@@ -65,7 +70,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //firebase variables
+        storageRef = FirebaseStorage.getInstance().getReference();
+        myRef = FirebaseDatabase.getInstance().getReference().child("users/" + username + "/audios");
         //setting buttons from view
         recordButton = findViewById(R.id.recordButton);
         playButton = findViewById(R.id.startPlayback);
@@ -74,7 +81,8 @@ public class MainActivity extends AppCompatActivity {
         backButton = findViewById(R.id.backButton);
 
         //getting current user for filesystem
-        username = ((MyApplication) this.getApplication()).getUserName();
+        username = "testUser"; //((MyApplication) this.getApplication()).getUserName();
+
         rootPath = new File(getExternalFilesDir(null), username);
         if(!rootPath.exists()) {
             rootPath.mkdirs();
@@ -122,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
     }
     private void startRecording(){
+        String text;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Name this recording");
 
@@ -134,13 +143,11 @@ public class MainActivity extends AppCompatActivity {
         // Set up the buttons
         builder.setPositiveButton("OK", (dialog, which) -> {
             m_Text = input.getText().toString();
+            tempName = m_Text;
             InputFilter[] filterArray = new InputFilter[1];
             filterArray[0] = new InputFilter.LengthFilter(20);
             input.setFilters(filterArray);
-            Toast toast = new Toast(getApplicationContext());
-            toast.setDuration(Toast.LENGTH_LONG);
-            toast.setText("Recording Started");
-            toast.show();
+            Toast.makeText(getApplicationContext(), "Recording Started", Toast.LENGTH_LONG).show();
             playButton.setEnabled(false);
             stopButton.setEnabled(false);
             if(player!=null){
@@ -164,10 +171,7 @@ public class MainActivity extends AppCompatActivity {
         });
         builder.setNegativeButton("Cancel", (dialog, which) -> {
             dialog.cancel();
-            Toast toast = new Toast(getApplicationContext());
-            toast.setDuration(Toast.LENGTH_LONG);
-            toast.setText("Recording Canceled");
-            toast.show();
+            Toast.makeText(getApplicationContext(), "Recording Canceled", Toast.LENGTH_LONG).show();
         });
 
         builder.show();
@@ -183,8 +187,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void setUploadTask(View v){
         Uri file = Uri.fromFile(new File(outputFile.getAbsolutePath()));
-        StorageReference riversRef = storageRef.child("images/"+file.getLastPathSegment());
-        uploadTask = riversRef.putFile(file);
+        StorageReference Ref = storageRef.child(username+ "/audios/"+tempName);
+        uploadTask = Ref.putFile(file);
 
 // Register observers to listen for when the download is done or if it fails
         uploadTask.addOnFailureListener(exception -> {
@@ -196,6 +200,9 @@ public class MainActivity extends AppCompatActivity {
                 // ...
             }
         });
+
+        //firebase database side
+        myRef.child(tempName).setValue(username+"/audios/"+tempName);
     }
     }
 
